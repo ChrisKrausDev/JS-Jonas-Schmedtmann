@@ -1,0 +1,11 @@
+Primitive data types
+    - number    let age = 23;
+    - string    let firstName = 'Jonas';
+    - boolean   let fullAge = true;
+    ------------------------------
+    - undefined let children
+    - null (empty value)
+    - symbol
+    - BigInt (larger integers)
+
+In JS there is an value that has a type, not the variable. So variables simply store values that have a type.

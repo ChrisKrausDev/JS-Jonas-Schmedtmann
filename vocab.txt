@@ -1,0 +1,4 @@
+mandatory           - obowiązkowy
+precedence          - pierwszeństwo
+cumbersome          - nieporęczny
+immensely useful    - niezmiernie przydatne
