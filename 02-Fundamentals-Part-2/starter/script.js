@@ -1,4 +1,3 @@
-
 // function foodProcesor (apples, oranges) {
 //     const juice = `Juice from ${apples} apples and ${oranges} oranges`
 //     return juice
@@ -10,8 +9,7 @@
 // const appleOrangeJuice = foodProcesor(2, 4);
 // console.log(appleOrangeJuice);
 
-
-    // FUNCTION DECLARATION - można ją wywołać przed zapisaniem tej funkcji (hoisting)
+// FUNCTION DECLARATION - można ją wywołać przed zapisaniem tej funkcji (hoisting)
 // function calcAge1(birthYear){
 //     return 2037 - birthYear;
 // }
@@ -26,7 +24,7 @@
 // const age2 = calcAge2(1988);
 // console.log(age2)
 
-    // Arrow function
+// Arrow function
 
 // const calcAge3 = birthYear => 2037 - birthYear;
 // const age3 = calcAge3(1988);
@@ -42,11 +40,11 @@
 // console.log(yearsUntilRetirement(1988, 'Krzysztof'));
 // console.log(yearsUntilRetirement(2512, 'Bob'));
 
-    // FUNCTION CALLING OTHER FUNCTION
+// FUNCTION CALLING OTHER FUNCTION
 
 // function cutFruitPices(fruit) {
 //     return fruit * 4;
-// }    
+// }
 
 // function foodProcesor (apples, oranges) {
 //     const applePieces = cutFruitPices(apples);
@@ -58,11 +56,11 @@
 
 // console.log(foodProcesor(2, 3));
 
-// 
+//
 
 // const calcAge = function(birthYear) {
 //     return 2037 - birthYear;
-// } 
+// }
 
 // const yearsUntilRetirement = function (birthYear, firstName) {
 //     const age = calcAge(birthYear);
@@ -101,7 +99,7 @@
 
 // friends[2] = 'Jay';
 // console.log(friends);
-// // można częściowo zmienić zawartość tablicy, mimo zadeklarowania zmiennej const, gdyż jest to obiekt a nie typ prosty 
+// // można częściowo zmienić zawartość tablicy, mimo zadeklarowania zmiennej const, gdyż jest to obiekt a nie typ prosty
 
 // // friends = ['bob', 'marley'];
 // // całkowita zmiana tablicy jest już niemożliwa: Uncaught TypeError: Assignment to constant variable.
@@ -109,16 +107,13 @@
 // const firstName = 'Jonas'
 // const jonas = [firstName, 'Kraus', 2037 - 1991, friends];
 
-// // może zawierać różne typy danych 
+// // może zawierać różne typy danych
 
 // console.log(jonas);
 // console.log(jonas.length);
 
-    
-
 // arrays excercice
 // ///////////////////////////////////////////////////
-
 
 // const calcAge = function (birthYear) {
 //     return 2037 - birthYear;
@@ -136,8 +131,6 @@
 // const ages = [calcAge(years[0]), calcAge(years[2]), calcAge(years[years.length - 1])];
 
 // console.log(ages);
-
-    
 
 // arrays methods
 // ////////////////////////////////////////////////
@@ -165,7 +158,7 @@
 // friends.shift(); // First
 // console.log(friends);
 
-// console.log(friends.indexOf('Steven')); // 1 
+// console.log(friends.indexOf('Steven')); // 1
 // console.log(friends.indexOf('Bob')); // -1
 
 // friends.push(23);
@@ -182,7 +175,7 @@
 // }
 
 //////////////////////////////////////////////////////////
-    // OBJECTS
+// OBJECTS
 
 // const christopherArray = [
 //     'Chris',
@@ -191,7 +184,6 @@
 //     'teacher',
 //     ['Michael', 'Peter', 'Steven']
 // ];
-
 
 // const chris = {
 //     firstName: 'Chris',
@@ -212,7 +204,7 @@
 
 // console.log(chris);
 
-// getting a property from an object: 
+// getting a property from an object:
 
 // console.log(chris.lastName);
 // console.log(chris['firstName']);
@@ -304,7 +296,6 @@
 // // powyżej moje rozwiązanie, w lini 288 rozwiązanie Jonasza
 // console.log(chris.getSummary());
 
-
 ///////////////////////////////////////
 // LOOPS!!!111one
 
@@ -356,31 +347,89 @@
 
 //   console.log(ages);
 
-  /////////////// break statement continue
+/////////////// break statement continue
 
-const jonas = [
-    'Jonas',
-    'Schmedtmann',
-    2037 - 1991,
-    'teacher',
-    ['Michael', 'Peter', 'Steven'],
-    true
-    ];
+// const jonas = [
+//     'Jonas',
+//     'Schmedtmann',
+//     2037 - 1991,
+//     'teacher',
+//     ['Michael', 'Peter', 'Steven'],
+//     true
+// ];
 
-const types = [];
+// const types = [];
 
-console.log('==== ONLY STRINGS ====')
-for (let i = 0; i < jonas.length; i++) {
-    if (typeof jonas[i] !== 'string') continue;
-    // jeśli typ jest różny od string to przejdź dalej, nie wpisuj do nowej tabeli - chcemy wpisać tylko stringi!
+// console.log('==== ONLY STRINGS ====')
+// for (let i = 0; i < jonas.length; i++) {
+//     if (typeof jonas[i] !== 'string') continue;
+//     // jeśli typ jest różny od string to przejdź dalej, nie wpisuj do nowej tabeli - chcemy wpisać tylko stringi!
 
-    console.log(jonas[i], typeof jonas[i])
-}
+//     console.log(jonas[i], typeof jonas[i])
+// }
 
-console.log('==== BREAK WITH NUMBER ====')
-for (let i = 0; i < jonas.length; i++) {
-    if (typeof jonas[i] === 'number') break;
-    // jeśli typ jest różny od string to przejdź dalej, nie wpisuj do nowej tabeli - chcemy wpisać tylko stringi!
+// console.log('==== BREAK WITH NUMBER ====')
+// for (let i = 0; i < jonas.length; i++) {
+//     if (typeof jonas[i] === 'number') break;
+//     // jeśli typ jest różny od string to przejdź dalej, nie wpisuj do nowej tabeli - chcemy wpisać tylko stringi!
 
-    console.log(jonas[i], typeof jonas[i])
-}
+//     console.log(jonas[i], typeof jonas[i])
+// }
+
+// LOOPING FORWARD
+////////////////////////////////////////////////////////
+
+// const jonas = [
+//     'Jonas',
+//     'Schmedtmann',
+//     2037 - 1991,
+//     'teacher',
+//     ['Michael', 'Peter', 'Steven'],
+// ];
+
+// for(let i = jonas.length - 1; i >= 0; i--) {
+//     console.log(jonas[i]);
+// }
+
+// for(let exercise = 1; exercise < 4; exercise++) {
+//     console.log(`======== Starting exercise ${exercise}`);
+
+//     for(let rep = 1; rep < 6; rep++) {
+//         console.log(`Exercise ${exercise}: Lifting weight repetition ${rep}`);
+//     }
+// }
+
+// WHILE LOOP
+/////////////////////////////////////////////////////////
+
+// for(let rep = 1; rep <= 10; rep++) {
+//     console.log(`Lifting weights repetition ${rep}`);
+// }
+
+// let rep = 1;
+
+// while (rep <= 10) {
+//     console.log(`WHILE LOOP: Lifting weights repetition ${rep}`);
+//     rep++;
+// }
+
+// let dice = Math.trunc(Math.random() * 6) + 1;
+
+// while (dice !== 6) {
+//     console.log(`You rolled a ${dice}`);
+//     dice = Math.trunc(Math.random() * 6) + 1;
+//     if (dice === 6) console.log('Loop is about to end...');
+// }
+
+var uniqueInOrder = function (iterable) {
+  var list = iterable.split("");
+  var list2 = [];
+  for (i = 0; i < list.length; i++) {
+    if (list[i] == !list[i - 1]) {
+      list2.push(list[i]);
+    }
+  }
+  return list;
+};
+
+console.log(uniqueInOrder("AAAABBBCCDAABBB"));
