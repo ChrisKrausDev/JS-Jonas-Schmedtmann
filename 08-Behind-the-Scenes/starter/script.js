@@ -143,8 +143,8 @@
 
 // // It's just the regular function call just like here.
 
-// // todo regular function vs arrow functions
-// todo video 98 
+        // // todo regular function vs arrow functions
+        // todo video 98 
 
 // the best practice is never use a arrow function as a method. Even when u dosen't use a 'this' keyword in a particular method. Using normal function expression will prevent u from mistakes like below:
 
@@ -221,42 +221,86 @@
 
     // arrow function inherits the 'this keyword' from the parent scope. AND THAT IS EXACTLY WHAT WE NEED HERE 
 
-const jonas2 = {
-    firstName: 'Jonas',
-    year: 1991,
-    calcAge: function() {
-        console.log(2037 - this.year);
+// const jonas2 = {
+//     firstName: 'Jonas',
+//     year: 1991,
+//     calcAge: function() {
+//         console.log(2037 - this.year);
 
-        const isMillenial = () => { 
-            console.log(this)
-            console.log(this.year >= 1981 && self.year <= 1996);
-        };
-        isMillenial();
-    },
+//         const isMillenial = () => { 
+//             console.log(this)
+//             console.log(this.year >= 1981 && self.year <= 1996);
+//         };
+//         isMillenial();
+//     },
 
-    greet: () => {
-        console.log(this);
-        console.log(`Hey ${this.firstName}`);
-    }
+//     greet: () => {
+//         console.log(this);
+//         console.log(`Hey ${this.firstName}`);
+//     }
+// }
+
+// jonas2.greet();
+// jonas2.calcAge();
+
+//     // arguments keyword // its not so important in modern JS 
+
+// // functions get access not only to the 'this keyword' but also to the 'argument keyword' and the 'argument keyword' is only available in regular functions
+
+// const addExpr = function (a, b) {
+//     console.log(arguments); // working fine
+//     return a + b;
+// };
+// addExpr(2, 5);
+// addExpr(2, 5, 8, 12);
+
+// var addArrow = (a, b) => {
+//     console.log(arguments); // arguments is not defined
+//     return a + b
+// };
+// addArrow(2, 5, 8);
+
+        //todo video_100 primitives vs objects in practice 
+
+// primitive values
+let lastName = 'Williams';
+let oldLastName = lastName;
+lastName = 'Davis';
+console.log(lastName, oldLastName)
+
+// working fine with primitives
+
+
+// reference types
+const jessica = {
+    firstName: 'Jessica',
+    lastName: 'Williams',
+    age: 27,
 }
 
-jonas2.greet();
-jonas2.calcAge();
+const marriedJessica = jessica;
+marriedJessica.lastName = 'Davis';
+console.log('before marriage:', jessica);
+console.log('after marriage:', marriedJessica);
 
-    // arguments keyword // its not so important in modern JS 
+// marriedJessica = {} - now we making a new object. And because marriedJessica is a const value we can not to do so, only with let
 
-// functions get access not only to the 'this keyword' but also to the 'argument keyword' and the 'argument keyword' is only available in regular functions
+// copying objects
+// Object.assign() - creating only a shallow copy, works fine with simple object, but when object have another object inside, then this object still will be the same. Like in an example below, jessica2 and jessicaCopy have 4 family members, although we changed only the array in jessicaCopy!
 
-const addExpr = function (a, b) {
-    console.log(arguments);
-    return a+ b;
+// family object is a deeply nested object so it does not work with this method
+
+const jessica2 = {
+    firstName: 'Jessica',
+    lastName: 'Williams',
+    age: 27,
+    family: ['Alice', 'Bob'],
 };
-addExpr(2, 5);
-addExpr(2, 5, 8, 12);
 
-var addArrow = (a, b) => {
-    console.log(arguments);
-    return a + b
-};
-addArrow(2, 5, 8);
+const jessicaCopy = Object.assign({}, jessica2);
+jessicaCopy.lastName = 'Davis';
+jessicaCopy.family.push('Mery');
+jessicaCopy.family.push('John');
 
+console.log('before marriage:', jessica2);
+console.log('after marriage:', jessicaCopy);

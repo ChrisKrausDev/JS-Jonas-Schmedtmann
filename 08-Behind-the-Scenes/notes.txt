@@ -201,3 +201,12 @@ this keyword/variable:
         Event listener => this = <DOM element that the handler is attached to>
 
         new, call, apply, bind... => later in the course
+
+
+                ### video_96 ###
+
+                //TODO Primitives vs. Objects (Primitive vs. Reference Types)
+
+primitives types = when we copy the primitive value (one simply variable to another) we create a new primitive value in a Call Stack so we can make changes in the new value without influence to the old one
+
+Reference types = Creating new object from the old one by making changes in the new one we are changing the old one also, because JS dosen't stores the value of the reference types in the Call Stack. It stores there only a reference to memory address in memory heap! That's why we call it a reference type. 
