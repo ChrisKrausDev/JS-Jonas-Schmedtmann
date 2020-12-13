@@ -32,66 +32,75 @@ const restaurant = {
 
   orderDelivery: function({starterIndex = 1, mainIndex = 0, time = '20:00', address}) {
     console.log(`Order recived! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`);
+  },
+
+  orderPasta: function(ing1, ing2, ing3) {
+    console.log(`here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`);
+  },
+
+  orderPizza: function(mainIngridient, ...otherIngridients) {
+    console.log(mainIngridient);
+    console.log(otherIngridients);
   }
 }
 
-  //fixme DESTRUCTURING OBJECTS
+  //fixme 103 DESTRUCTURING OBJECTS
   // we using {} to do this
   // it's usefull when we dealing with third party data 
 
-restaurant.orderDelivery({
-  time: '22:30',
-  address: 'Via del Sole, 21',
-  mainIndex: 2,
-  starterIndex: 2,
-});
+// restaurant.orderDelivery({
+//   time: '22:30',
+//   address: 'Via del Sole, 21',
+//   mainIndex: 2,
+//   starterIndex: 2,
+// });
 
-restaurant.orderDelivery({
-  address: 'Via del Sole, 21',
-  starterIndex: 1,
-  // with no other values JS will take the default values from line 33! 
-});
-// calling this function and passing in an object of options, that's standart thing in JS 
+// restaurant.orderDelivery({
+//   address: 'Via del Sole, 21',
+//   starterIndex: 1,
+//   // with no other values JS will take the default values from line 33! 
+// });
+// // calling this function and passing in an object of options, that's standart thing in JS 
 
-const {restName, openingHours, categories} = restaurant;
-// it will create 3 brend new values - order dosen't metter
-console.log(restName, openingHours, categories);
+// const {restName, openingHours, categories} = restaurant;
+// // it will create 3 brend new values - order dosen't metter
+// console.log(restName, openingHours, categories);
 
-const {
-  restName: restaurantName, 
-  openingHours: hours, 
-  categories: tags} = restaurant;
-  // we can add to the variables new names
+// const {
+//   restName: restaurantName, 
+//   openingHours: hours, 
+//   categories: tags} = restaurant;
+//   // we can add to the variables new names
 
-console.log(restaurantName, hours, tags);
+// console.log(restaurantName, hours, tags);
 
     // todo seting up default values:
 
-const {menu = [], starterMenu: starters = []} = restaurant;
-console.log(menu, starters);
-// when the starterMenu is not empty, like in our example, the empty value [] will be not assigned, but for menu - it is [] because there is no menu in restaurant
+// const {menu = [], starterMenu: starters = []} = restaurant;
+// console.log(menu, starters);
+// // when the starterMenu is not empty, like in our example, the empty value [] will be not assigned, but for menu - it is [] because there is no menu in restaurant
 
-// it is usefull when we have no hard coded data 
+// // it is usefull when we have no hard coded data 
 
-    // todo mutating variables
+//     // todo mutating variables
 
-let a = 111;
-let b = 999;
-const obj = {a: 23, b: 7, c: 14};
+// let a = 111;
+// let b = 999;
+// const obj = {a: 23, b: 7, c: 14};
 
-// {a, b} = obj; // Unexpected token '=' to fix it:
-({a, b} = obj);
-console.log(a, b);
-// that's how we can overwrite
+// // {a, b} = obj; // Unexpected token '=' to fix it:
+// ({a, b} = obj);
+// console.log(a, b);
+// // that's how we can overwrite
 
-    // todo nested objects
+//     // todo nested objects
 
-const {fri: 
-  {open: o, close: c},
-} = openingHours;
-console.log(o, c);
+// const {fri: 
+//   {open: o, close: c},
+// } = openingHours;
+// console.log(o, c);
 
-  //fixme DESTRUCTURING ARRAYS
+  //fixme 104 DESTRUCTURING ARRAYS
 
 //     const arr = [2, 3, 4];
 //     // to destructurize this array:
@@ -154,5 +163,130 @@ console.log(o, c);
 // // if = [8, 9] => q = also 1
 // console.log(p, q, r);
 
+    //fixme 105 the spread operator (...)
 
+// the spread operator takes all the elements from the array and it also doesn't create new variables. As a consequence, we can only use it places where we would otherwise write values separated by commas. It works on all so-called iterables (arrays, strings, maps, sets. NOT OBJECTS)
 
+// const str = 'chris';
+// //unpacking string
+// const letters = [...str, '', 'S.'];
+// console.log(letters);
+// console.log(...str);
+// // but its only working while creating new array or by passing arguments into a function
+// // console.log(`${...str} Kraus`); // Unexpected token '...'
+
+// const arr = [7, 8, 9];
+
+// // how to create new arr based on the old arr but with some new elements on the beginnig?
+
+// const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
+// console.log(badNewArr);
+
+// // since ES6 we can use spread operator (...) it take all values from arr and write it to the newArr
+
+// const newArr = [1, 2, ...arr];
+// // const newArr = [1, 2, arr]; // => [1, 2, Array(3)]
+// console.log('spread operator', newArr)
+
+// // whenever we need the elements of an array individually then we can use spread operator (to write elements frome a function or when we need to pass multiple elements into a function like we did here):
+// console.log(...newArr);
+
+// // ===
+
+// // creating a new array based on the restaurant.mainMenu
+// const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+// console.log(newMenu);
+
+//todo two important cases of uses spread operator:
+
+    // creating shallow copies of array
+
+// const mainManuCopy = [...restaurant.mainMenu];
+
+//     // marging two arrays together
+
+// const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+// console.log(menu);
+
+// const ingredients = [prompt('Let\'s make pasta! Ingredient 1'), prompt('Let\'s make pasta! Ingredient 1'), prompt('Let\'s make pasta! Ingredient 1')];
+
+// console.log(ingredients);
+
+// restaurant.orderPasta(ingredients[0], ingredients[1], ingredients[2]);
+
+// with ES6 spread operator: 
+
+// restaurant.orderPasta(...ingredients);
+
+//todo since 2018 ES6 spread operator works also with objects!
+
+// const newRestaurant = {foundedIn: 1998, ...restaurant, founder: 'Guiseppe'};
+// console.log(newRestaurant);
+
+// const restaurantCopy = {...restaurant};
+// restaurantCopy.name = 'Ristorante Roma';
+// console.log(restaurantCopy.name);
+// console.log(restaurant.restName);
+
+//fixme 106 rest pattern and parameters
+
+// rest pattern looks exactly like the spread operator (...), but it does the oposit of the spread operator.
+
+// spred operator is to unpack an array while rest is to pack elements into an array
+
+      // 1 DESTRUCTURING
+
+// SPREAD, because on RIGHT side of =
+const arr = [1, 2, ...[3, 4]];
+
+// REST, because on LEFT side of =
+const [a, b, ...others] = [1,2,3,4,5];
+console.log(a, b, others);
+
+// the REST pattern collects the elements that are unused in the destructuring assignment like below: 
+
+const [pizza, , risotto, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu];
+
+console.log(pizza, risotto, otherFood);
+
+// with an objects
+
+const {sat, ...weekdays} = restaurant.openingHours;
+console.log(weekdays);
+  // ...weekdays collects the rest of the properties into its own new object
+
+      // 2 FUNCTIONS
+
+const add = function(...numbers) {
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) sum += numbers[i];
+  console.log(sum);
+}
+// rest arguments
+add(2, 3); 
+add(5, 3, 7, 2);
+add(2, 3, 4, 5, 6, 7, 8);
+
+// in this example the rest syntax is taking multiple numbers or multiple values and then packs them all into one array. So its doing the oposite of the spread operator.
+
+// WITH THE SPREAD OPERATOR WE EXPAND, WITH THE REST SYNTAX WE COMPRESS
+
+const x = [23, 5, 7];
+add(...x); // it's this same as add(x[0], x[1], x[2]);
+
+restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
+restaurant.orderPizza('mushrooms');
+
+// once again, the rest parameters serves to collect all of the remaining basically unused parameters that ware not used in mainIngridient from line 41
+
+          //todo summary
+
+        // the spread and rest syntax both look exactly the same but they work in opposite ways depending on where they are used. 
+
+        // the spread operator is used where we would otherwise write values, separated by a comma
+
+        // the rest operator is used where we would otherwise write variable names separated by commas
+
+        // the rest pattern can be used where we would write variable names, separated by commas and not values separated by commas
