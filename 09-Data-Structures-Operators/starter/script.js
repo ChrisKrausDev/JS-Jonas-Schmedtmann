@@ -95,10 +95,11 @@ const restaurant = {
 
 //     // todo nested objects
 
-// const {fri: 
-//   {open: o, close: c},
-// } = openingHours;
-// console.log(o, c);
+console.log('-------------NESTED OBJECTS-------------');
+const {fri: 
+  {open: o, close: c},
+} = restaurant.openingHours;
+console.log(o, c);
 
   //fixme 104 DESTRUCTURING ARRAYS
 
@@ -188,7 +189,7 @@ const restaurant = {
 // // const newArr = [1, 2, arr]; // => [1, 2, Array(3)]
 // console.log('spread operator', newArr)
 
-// // whenever we need the elements of an array individually then we can use spread operator (to write elements frome a function or when we need to pass multiple elements into a function like we did here):
+// // whenever we need the elements of an array individually then we can use spread operator (to write elements from a function or when we need to pass multiple elements into a function like we did here):
 // console.log(...newArr);
 
 // // ===
@@ -238,9 +239,11 @@ const restaurant = {
 
 // SPREAD, because on RIGHT side of =
 const arr = [1, 2, ...[3, 4]];
+console.log(arr);
 
 // REST, because on LEFT side of =
-const [a, b, ...others] = [1,2,3,4,5];
+console.log('-----------REST pattern-----------');
+const [a, b, ...others] = ['in',2,3,4,5];
 console.log(a, b, others);
 
 // the REST pattern collects the elements that are unused in the destructuring assignment like below: 
@@ -290,3 +293,186 @@ restaurant.orderPizza('mushrooms');
         // the rest operator is used where we would otherwise write variable names separated by commas
 
         // the rest pattern can be used where we would write variable names, separated by commas and not values separated by commas
+
+    //fixme 107 short circuting 
+
+// // logical operator can use ANY data type, return ANY data type, and they do something called short-circuting
+// console.log('----------OR-----------');
+
+// console.log(3 || 'chris');
+// //short circuting means - if the first value is true, then it returns this value. Do not even look at the second value
+
+// console.log("" || 'jonas');
+// console.log(true || 0);
+// console.log(undefined || null);
+
+// // restaurant.numGuests = 23;
+// const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
+// console.log(guests1); 
+
+// // better: 
+
+// const guests2 = restaurant.numGuests || 10;
+// console.log(guests2);
+// // its 10 when numGuests is not defined at 305 line
+
+// console.log('---------AND-----------');
+// // && short circuit when the first value is falsy, do not take a look at the second value 
+
+// // if every values are true it will show the last one 
+
+// console.log(0 && 'jonas');
+// console.log(7 && 'jonas');
+
+// console.log(4 && 'hello' && 23 && null && 'jonas');
+
+// // practical example
+// if (restaurant.orderPizza) {
+//   restaurant.orderPizza('mashrooms', 'spinach');
+// }
+
+// restaurant.orderPizza && restaurant.orderPizza('mashrooms', 'spinach')
+// // if restaurant.orderPizza is true JS will call the function orderPizza
+
+    //fixme 108 the nullish coalescing operator es2020
+
+// restaurant.numGuests = 0; 
+// const guests = restaurant.numGuests || 10;
+// console.log(guests);
+// // it will show 0! its wrong! 
+
+// const guestCorrect = restaurant.numGuests ?? 10;
+// console.log(guestCorrect);
+// // it will show 0 when numGuests is defined as 0 at 336 line. 
+
+// // Nullish values: null and undefined (not 0 or '');
+// // only when the first value will be null or undefined THEN it will show 10
+
+//fixme coding challenge!!! 
+
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+// const [players1, players2] = game.players;
+// console.log(players1);
+// console.log(players2);
+
+// const [gk, ...fieldPlayers] = players1;
+// console.log(gk, fieldPlayers);
+
+// const allPlayers = [...players1, ...players2];
+// console.log(allPlayers);
+
+// const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
+// console.log(players1Final);
+
+// const {odds:
+//   {team1: team1, x: draw, team2: team2},
+// } = game;
+// console.log(team1, draw, team2);
+
+// const printGoals = function(n, ...player) {
+//   for (let i = 0; i < n; i++) {
+//     console.log(`${player} - with 1 goal`); 
+//   } 
+// };
+
+// console.log(printGoals(2, 'Davis', 'Muller', 'Lewandowski', 'Kimich'));
+
+// console.log(team1 > team2 ?? team1 < team2);
+
+//todo with jonas
+
+console.log(`===========
+coding challenge
+with jonas
+============`);
+
+// 1) destructuring the game.players arrey:
+
+const [players1, players2] = game.players;
+console.log(players1, players2);
+
+// 2) destructuring based on players1 array
+
+const [gk, ...fieldPlayers] = players1;
+console.log(gk, fieldPlayers);
+
+// 3) allPlayers with spread operator
+
+const allPlayers = [...players1, ...players2]
+// put in the allPlayers array all players from players1 and all from players2
+console.log(allPlayers);
+
+// 4)
+
+const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
+console.log(players1Final);
+// unpacking players1 array into a new players1Final array
+
+// 5)
+
+const {odds: {
+  team1, x: draw, team2
+}} = game;
+// so we take 'game' and from there we take 'odds' property
+console.log(team1, draw, team2);
+
+// 6 by using rest parameter we are goint to agregate all incoming arguments into one array
+
+const printGoals = function(...players) {
+  console.log(`${players.length} gols were scored`);
+}
+
+printGoals('Davies', 'Muller', 'Lewandowski', 'Kimich');
+printGoals('Davies', 'Muller');
+
+printGoals(game.scored); // if we do so, it will put as an argument ONE array with ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'] so that's why output = 1
+
+// we need to put this arguments (players) one by one so:
+
+printGoals(...game.scored);
+
+// 7 
+
+team1 < team2 && console.log('Team 1 is more likely to win');
+
+// when the first argument is TRUE it will evaluate the last one!!!! only with &&
