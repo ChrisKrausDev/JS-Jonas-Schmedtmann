@@ -1,5 +1,22 @@
 'use strict';
 
+const weekdays = ['mon', 'tue', 'wed', 'thr', 'fri', 'sat', 'sun'];
+
+const openingHours = {
+  [weekdays[3]]: {
+    open: 12,
+    close: 22,
+  },
+  [weekdays[4]]: {
+    open: 11,
+    close: 23,
+  },
+  [weekdays[5]]: {
+    open: 0, // open 24 hours
+    close: 24,
+  },
+};
+
 // destructuring is an ESX feature and it's unpacking values
 // from an array or an object into separate variables.
 
@@ -11,26 +28,15 @@ const restaurant = {
   categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
-  openingHours: {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, // open 24 hours
-      close: 24,
-    },
-  },
+  openingHours,
 
-  order: function(starterIndex, mainIndex) {
+
+  // new syntax with ES6 by defining methods
+  order(starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
 
-  orderDelivery: function({starterIndex = 1, mainIndex = 0, time = '20:00', address}) {
+  orderDelivery({starterIndex = 1, mainIndex = 0, time = '20:00', address}) {
     console.log(`Order recived! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`);
   },
 
@@ -95,11 +101,11 @@ const restaurant = {
 
 //     // todo nested objects
 
-console.log('-------------NESTED OBJECTS-------------');
-const {fri: 
-  {open: o, close: c},
-} = restaurant.openingHours;
-console.log(o, c);
+// console.log('-------------NESTED OBJECTS-------------');
+// const {fri: 
+//   {open: o, close: c},
+// } = restaurant.openingHours;
+// console.log(o, c);
 
   //fixme 104 DESTRUCTURING ARRAYS
 
@@ -238,49 +244,49 @@ console.log(o, c);
       // 1 DESTRUCTURING
 
 // SPREAD, because on RIGHT side of =
-const arr = [1, 2, ...[3, 4]];
-console.log(arr);
+// const arr = [1, 2, ...[3, 4]];
+// console.log(arr);
 
-// REST, because on LEFT side of =
-console.log('-----------REST pattern-----------');
-const [a, b, ...others] = ['in',2,3,4,5];
-console.log(a, b, others);
+// // REST, because on LEFT side of =
+// console.log('-----------REST pattern-----------');
+// const [a, b, ...others] = ['in',2,3,4,5];
+// console.log(a, b, others);
 
-// the REST pattern collects the elements that are unused in the destructuring assignment like below: 
+// // the REST pattern collects the elements that are unused in the destructuring assignment like below: 
 
-const [pizza, , risotto, ...otherFood] = [
-  ...restaurant.mainMenu,
-  ...restaurant.starterMenu];
+// const [pizza, , risotto, ...otherFood] = [
+//   ...restaurant.mainMenu,
+//   ...restaurant.starterMenu];
 
-console.log(pizza, risotto, otherFood);
+// console.log(pizza, risotto, otherFood);
 
-// with an objects
+// // with an objects
 
-const {sat, ...weekdays} = restaurant.openingHours;
-console.log(weekdays);
-  // ...weekdays collects the rest of the properties into its own new object
+// const {sat, ...weekdays} = restaurant.openingHours;
+// console.log(weekdays);
+//   // ...weekdays collects the rest of the properties into its own new object
 
-      // 2 FUNCTIONS
+//       // 2 FUNCTIONS
 
-const add = function(...numbers) {
-  let sum = 0;
-  for (let i = 0; i < numbers.length; i++) sum += numbers[i];
-  console.log(sum);
-}
-// rest arguments
-add(2, 3); 
-add(5, 3, 7, 2);
-add(2, 3, 4, 5, 6, 7, 8);
+// const add = function(...numbers) {
+//   let sum = 0;
+//   for (let i = 0; i < numbers.length; i++) sum += numbers[i];
+//   console.log(sum);
+// }
+// // rest arguments
+// add(2, 3); 
+// add(5, 3, 7, 2);
+// add(2, 3, 4, 5, 6, 7, 8);
 
-// in this example the rest syntax is taking multiple numbers or multiple values and then packs them all into one array. So its doing the oposite of the spread operator.
+// // in this example the rest syntax is taking multiple numbers or multiple values and then packs them all into one array. So its doing the oposite of the spread operator.
 
-// WITH THE SPREAD OPERATOR WE EXPAND, WITH THE REST SYNTAX WE COMPRESS
+// // WITH THE SPREAD OPERATOR WE EXPAND, WITH THE REST SYNTAX WE COMPRESS
 
-const x = [23, 5, 7];
-add(...x); // it's this same as add(x[0], x[1], x[2]);
+// const x = [23, 5, 7];
+// add(...x); // it's this same as add(x[0], x[1], x[2]);
 
-restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
-restaurant.orderPizza('mushrooms');
+// restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
+// restaurant.orderPizza('mushrooms');
 
 // once again, the rest parameters serves to collect all of the remaining basically unused parameters that ware not used in mainIngridient from line 41
 
@@ -350,6 +356,336 @@ restaurant.orderPizza('mushrooms');
 
 //fixme coding challenge!!! 
 
+// const game = {
+//   team1: 'Bayern Munich',
+//   team2: 'Borrussia Dortmund',
+//   players: [
+//     [
+//       'Neuer',
+//       'Pavard',
+//       'Martinez',
+//       'Alaba',
+//       'Davies',
+//       'Kimmich',
+//       'Goretzka',
+//       'Coman',
+//       'Muller',
+//       'Gnarby',
+//       'Lewandowski',
+//     ],
+//     [
+//       'Burki',
+//       'Schulz',
+//       'Hummels',
+//       'Akanji',
+//       'Hakimi',
+//       'Weigl',
+//       'Witsel',
+//       'Hazard',
+//       'Brandt',
+//       'Sancho',
+//       'Gotze',
+//     ],
+//   ],
+//   score: '4:0',
+//   scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+//   date: 'Nov 9th, 2037',
+//   odds: {
+//     team1: 1.33,
+//     x: 3.25,
+//     team2: 6.5,
+//   },
+// };
+
+// const [players1, players2] = game.players;
+// console.log(players1);
+// console.log(players2);
+
+// const [gk, ...fieldPlayers] = players1;
+// console.log(gk, fieldPlayers);
+
+// const allPlayers = [...players1, ...players2];
+// console.log(allPlayers);
+
+// const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
+// console.log(players1Final);
+
+// const {odds:
+//   {team1: team1, x: draw, team2: team2},
+// } = game;
+// console.log(team1, draw, team2);
+
+// const printGoals = function(n, ...player) {
+//   for (let i = 0; i < n; i++) {
+//     console.log(`${player} - with 1 goal`); 
+//   } 
+// };
+
+// console.log(printGoals(2, 'Davis', 'Muller', 'Lewandowski', 'Kimich'));
+
+// console.log(team1 > team2 ?? team1 < team2);
+
+//todo with jonas
+
+// console.log(`===========
+// coding challenge
+// with jonas
+// ============`);
+
+// // 1) destructuring the game.players arrey:
+
+// const [players1, players2] = game.players;
+// console.log(players1, players2);
+
+// // 2) destructuring based on players1 array
+
+// const [gk, ...fieldPlayers] = players1;
+// console.log(gk, fieldPlayers);
+
+// // 3) allPlayers with spread operator
+
+// const allPlayers = [...players1, ...players2]
+// // put in the allPlayers array all players from players1 and all from players2
+// console.log(allPlayers);
+
+// // 4)
+
+// const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
+// console.log(players1Final);
+// // unpacking players1 array into a new players1Final array
+
+// // 5)
+
+// const {odds: {
+//   team1, x: draw, team2
+// }} = game;
+// // so we take 'game' and from there we take 'odds' property
+// console.log(team1, draw, team2);
+
+// // 6 by using rest parameter we are goint to agregate all incoming arguments into one array
+
+// const printGoals = function(...players) {
+//   console.log(`${players.length} gols were scored`);
+// }
+
+// printGoals('Davies', 'Muller', 'Lewandowski', 'Kimich');
+// printGoals('Davies', 'Muller');
+
+// printGoals(game.scored); // if we do so, it will put as an argument ONE array with ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'] so that's why output = 1
+
+// // we need to put this arguments (players) one by one so:
+
+// printGoals(...game.scored);
+
+// // 7 
+
+// team1 < team2 && console.log('Team 1 is more likely to win');
+
+// when the first argument is TRUE it will evaluate the last one!!!! only with &&
+
+    //fixme 110. looping arrays: the for-of loop
+
+console.log(`========== for-of loop ===========`);
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+for (const item of menu) console.log(item);
+// to print all elements: each element logged one by one - the item variable is a current element in each iteration 
+
+
+// if u need index of the element u can do so: 
+console.log(`--- menu.entries for-of loop`);
+
+for (const item of menu.entries()) {
+  console.log(`${item[0] + 1}: ${item[1]}`);
+}
+// now each element is an array with the index and the array element itself
+console.log(`--- menu.entries`);
+console.log(menu.entries()); // it shows only array iterator {}, if u want to look inside u need to expand it using spread operator:
+
+// console.log(...menu.entries());
+
+// and then creating a new array based on menu.entries:
+console.log(`---[...menu.entries()]`);
+console.log([...menu.entries()]);
+
+console.log(` `);
+
+for (const [i, el] of menu.entries()) {
+  console.log(`${i + 1}: ${el}`);
+}
+
+// with destructuring works this same like the for loop in 492, but it's easier to do
+
+    //fixme 111. Enhanced object literals
+// console.log(`----------------- enhanced object literals ------------------`);
+
+// object literal syntax is const restaurant = {
+  // end everything what is inside
+// }
+
+// ES6 introduced three ways, which makes it easier to write object literals like this
+
+// first of all lets say that we have an object that is outside of this object (separate variable):
+
+// const openingHours ={
+//   thu: {
+//     open: 12,
+//     close: 22,
+//   },
+//   fri: {
+//     open: 11,
+//     close: 23,
+//   },
+//   sat: {
+//     open: 0, // open 24 hours
+//     close: 24,
+//   },
+// };
+
+// and then you can simply write only theopeningHours to the object literals of the restaurant. It will be shown as it will be inside.
+
+//  1) easier way to define object lierals like below
+//  2) easier way to define methods in object literals
+//  3) computing names like in line 5!
+
+        // const openingHours = {
+        //   [weekdays[3]]: {
+        //     open: 12,
+        //     close: 22,
+        //   },
+        //   [weekdays[4]]: {
+        //     open: 11,
+        //     close: 23,
+        //   },
+        //   //todo [`day-${2 + 4}`]: {
+        //     open: 0, // open 24 hours
+        //     close: 24,
+        //   },
+        // };
+
+    //fixme 112 optional chaining (.?)
+
+// console.log(`-------------- optional chaining --------------`);
+
+// optional chaining - newer feature of objects and arrays
+
+// console.log(restaurant.openingHours.mon); // undefined
+// console.log(restaurant.openingHours.mon.open); // undefined.open = ERROR
+
+//to avoid this error we have to check if openingHours.mon actually exists:
+
+// if (restaurant.openingHours.mon) console.log(restaurant.openingHours.mon.open); // doesn't exist
+
+// if (restaurant.openingHours.fri) console.log(restaurant.openingHours.fri.open); // exist - logged
+
+// // it's fine, but it's unreadeble, bit messy, and works only for one object. For more objects:
+
+// if (restaurant.openingHours && restaurant.openingHours.mon) console.log(restaurant.openingHours.mon.open);
+
+// alter... katastrophe but here it comes...............
+
+//todo es2020 OPTIONAL CHAINING
+
+// console.log(restaurant.openingHours.mon?.open);
+// // only if the object before ? exist, the this open property will be read from there. If not, then immediately undefined will be returned.
+
+// // and... a property exist if it's not null and not undefined. If it's 0 or ' ' its still exists.
+
+// // we can have multiple optional chaining
+
+// console.log(restaurant.openingHours?.mon?.open);
+// // it openingHours dosen't exist the mon will not be even read. JS will logged undefined
+
+// // example
+
+// const days = ['mon', 'tue', 'wed', 'thr', 'fri', 'sat', 'sun'];
+
+// for (const day of days) {
+//   // console.log(day);
+//   const open = restaurant.openingHours[day]?.open ?? 'closed';
+//   //it shows undefined when the opening hours are not defined, if we don't want that we can siply use || 'closed', but in case of saturday, where opening is at 0 it show also 'closed' because 0 is 'falsy'
+
+//   // so in this situation we can use nullish coalescing operator ?? - now working fine!
+//   console.log(`On ${day}, we open at ${open}`);
+// }
+
+//todo optional chaining for calling methods 
+
+// console.log(restaurant.order?.(0,1) ?? 'Method does not exist');
+// // we can check or order() exist 
+
+// console.log(restaurant.orderRisotto?.(0,1) ?? 'Method does not exist');
+
+// if the method doesn't exist JS will set it as undefined and thanks nullish coalescing operator it will go to the second operant and logged: 'method does not exist'
+
+//todo optional chaining for arrays
+
+// const users = [
+//   {name: 'jonas', email: 'hello@jonas.io'
+// }];
+
+// // to get the name of the first element of this array:
+
+// console.log(users[0]?.name ?? 'user array is empty');
+// // only when the user[0] exist (optional chaining) we cant take it's .name otherweise (??) logged 'user array is empty' 
+
+// // without new features - more work, complicity etc:
+
+// if (users.length > 0) console.log(users[0].name);
+// else console.log('user array empty');
+
+// fixme looping objects: object keys. values and entries
+
+// for (const day of Object.keys(openingHours)) {
+//   console.log(day);
+//   // logged 'thr fri sat' which is a keys of this object
+// }
+
+//todo Property NAMES
+
+const properties = Object.keys(openingHours);
+console.log(properties);
+// properties it's an array with 3 objects
+
+// we can use it (Object.keys()) to compute how many properties are in the object:
+
+let openStr = `We are open on ${properties.length} days: `
+for (const day of properties) {
+  openStr += `${day}, `;
+}
+console.log(openStr);
+
+//todo Property VALUES
+
+console.log(`------------ property values ----------------`);
+const values = Object.values(openingHours);
+console.log(values);
+
+
+//todo entire object
+
+// now to really simulate to loop over the entire object we actually need the entries (name plus the values together)
+
+const entries = Object.entries(openingHours);
+console.log(entries);
+
+// simply speaking - it's transform the object into an array, so we can loop into this object:
+
+for (const [key, {open, close}] of entries) {
+  console.log(`On ${key} we open at ${open} and close at ${close}`);
+
+  // [key, {open, close}] it's nesseseiry because this value is also an object - thanks this destructuring we can then use open and close in our string output 
+
+  // [key, value] - with simple object that's enough
+}
+
+// On thr we open at 12 and close at 22
+// On fri we open at 11 and close at 23
+// On sat we open at 0 and close at 24
+
+
+//fixme 114 coding challenge #2 
+
 const game = {
   team1: 'Bayern Munich',
   team2: 'Borrussia Dortmund',
@@ -391,88 +727,10 @@ const game = {
   },
 };
 
-// const [players1, players2] = game.players;
-// console.log(players1);
-// console.log(players2);
+// 1. loop over the game.scored array and print each player name to the console, along with the goal number (example: 'goal 1: Lewandowski')
 
-// const [gk, ...fieldPlayers] = players1;
-// console.log(gk, fieldPlayers);
+for (const item of game.scored.entries()) {
+  console.log(`Goal ${item[0] + 1} - ${item[1]}`);
+};
 
-// const allPlayers = [...players1, ...players2];
-// console.log(allPlayers);
-
-// const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
-// console.log(players1Final);
-
-// const {odds:
-//   {team1: team1, x: draw, team2: team2},
-// } = game;
-// console.log(team1, draw, team2);
-
-// const printGoals = function(n, ...player) {
-//   for (let i = 0; i < n; i++) {
-//     console.log(`${player} - with 1 goal`); 
-//   } 
-// };
-
-// console.log(printGoals(2, 'Davis', 'Muller', 'Lewandowski', 'Kimich'));
-
-// console.log(team1 > team2 ?? team1 < team2);
-
-//todo with jonas
-
-console.log(`===========
-coding challenge
-with jonas
-============`);
-
-// 1) destructuring the game.players arrey:
-
-const [players1, players2] = game.players;
-console.log(players1, players2);
-
-// 2) destructuring based on players1 array
-
-const [gk, ...fieldPlayers] = players1;
-console.log(gk, fieldPlayers);
-
-// 3) allPlayers with spread operator
-
-const allPlayers = [...players1, ...players2]
-// put in the allPlayers array all players from players1 and all from players2
-console.log(allPlayers);
-
-// 4)
-
-const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
-console.log(players1Final);
-// unpacking players1 array into a new players1Final array
-
-// 5)
-
-const {odds: {
-  team1, x: draw, team2
-}} = game;
-// so we take 'game' and from there we take 'odds' property
-console.log(team1, draw, team2);
-
-// 6 by using rest parameter we are goint to agregate all incoming arguments into one array
-
-const printGoals = function(...players) {
-  console.log(`${players.length} gols were scored`);
-}
-
-printGoals('Davies', 'Muller', 'Lewandowski', 'Kimich');
-printGoals('Davies', 'Muller');
-
-printGoals(game.scored); // if we do so, it will put as an argument ONE array with ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'] so that's why output = 1
-
-// we need to put this arguments (players) one by one so:
-
-printGoals(...game.scored);
-
-// 7 
-
-team1 < team2 && console.log('Team 1 is more likely to win');
-
-// when the first argument is TRUE it will evaluate the last one!!!! only with &&
+// 2. use a loop to calculate the averange odd and log it to the console 
