@@ -662,7 +662,9 @@ const values = Object.values(openingHours);
 console.log(values);
 
 
-//todo entire object
+  //todo entires object
+
+console.log(`------------ entries values ----------------`);
 
 // now to really simulate to loop over the entire object we actually need the entries (name plus the values together)
 
@@ -726,11 +728,217 @@ const game = {
     team2: 6.5,
   },
 };
-
+//todo 1
 // 1. loop over the game.scored array and print each player name to the console, along with the goal number (example: 'goal 1: Lewandowski')
 
+
 for (const item of game.scored.entries()) {
+  // in the array we are using entries() method! 
   console.log(`Goal ${item[0] + 1} - ${item[1]}`);
 };
 
+for (const [i, player] of game.scored.entries())
+  // destructuring the game.scored array ['i' - index of the player, 'player' - es ist klar]
+  console.log(`Goal ${i + 1}: ${player}`);
+
+//todo 2
 // 2. use a loop to calculate the averange odd and log it to the console 
+
+console.log(Object.values(game.odds));
+// loggs an array with values from game.odds [1.33, 3.25, 6.5]
+
+let averange = 0;
+for (const odd of Object.values(game.odds))
+  averange += odd;
+  // loops over the game.odds values array and added it to the averange in each iteration
+
+averange /= Object.values(game.odds).length;
+// deviding the avg var by a length of the
+console.log(averange);
+
+//todo3
+// 3 Print the 3 odds to the console, but in a nice formatted way, exactly like this: 
+    // Odd of victory Bayern Munich: 1.33
+    // Odd of draw: 3.25
+    // Odd of victory Borrussia Dortmung: 6.5
+// Get the team names directly from the game object, don't hardoce the (except for 'draw'). HINT: Note how the odds and the game objects have the same property names!
+
+for (const [team, odd] of Object.entries(game.odds)) {
+  // we need to loop through an object, so we can use Object.entries(game.odds) method, where we put in the method an object that we are interested in. We will get an array of arrays which in each position will have both - the team and the odd, so we give the variables names: [team, odd]
+
+  const teamStr = team === 'x' ? `draw` : `victory ${game[team]}`; 
+  // it's itearate through Object.entries(game.odds), when it find x under the 'team' will logged draw, else victory and the team name!
+
+  // game[team] will print once team1 and once time2 becoause so it is named in odds! Will then take that string and put it to `victory ${game[team]` [team] = game.team1 so it is Bayern Munich 
+
+  console.log(`Odd of ${teamStr} ${odd}`);
+}
+
+//fixme 115 SETS
+
+// In JS were always only two built-in data structures - objects and arrays. But in ES6 two more were introduced.
+
+// sets and maps
+
+// they are exist in many other programming languages, and now also in JS 
+
+//todo SET IS JUST A COLECTION OF UNIQUE VALUES
+// Differences from an arrays
+// 1) set can never have any duplicates
+// 2) an order of elements in the set is irrelevant
+
+console.log('------------------- SETS --------------------');
+
+const orderSet = new Set([
+  'Pasta',
+  'Pizza', 
+  'Pizza', 
+  'Risotto', 
+  'Pasta',
+]);
+
+console.log(orderSet); // {"Pasta", "Pizza", "Risotto"}
+// returns an array without duplicates
+
+// sets are iterables, strings also:
+console.log(new Set('Chris')); // {"C", "h", "r", "i", "s"}
+
+    //todo how to work with sets
+
+console.log(orderSet.size); // 3 
+// not length like in arrays 
+
+console.log(orderSet.has('Pizza')); // true
+console.log(orderSet.has('Bread')); // false
+// like includes() in arrays
+
+orderSet.add('Garlic Bread');
+orderSet.add('Garlic Bread'); 
+console.log(orderSet); // {"Pasta", "Pizza", "Risotto", "Garlic Bread"}
+// with add we can add some elements into a set
+
+orderSet.delete('Risotto');
+console.log(orderSet); // {"Pasta", "Pizza", "Garlic Bread"}
+
+// orderSet.clear(); // {}
+
+    //todo retriving elements from set
+
+// there is no need to take values out of set, because values are unique and the order of values does not matter. To store and retrive data use arrays
+
+for (const order of orderSet) console.log(order);
+// if sets are iterable we can do a for loop with them
+
+    //todo the big use case for them
+// is to delete duplicates from an array
+
+const staff = ['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter'];
+
+// and when we need to have an array with unique positions:
+
+const staffUnique = new Set(staff);
+console.log(staffUnique); // {"waiter", "chef", "manager"}
+// we got a set with unique positions, but we want to make an array from it:
+
+const staffUnique2 = [...new Set(staff)];
+// we can create an array around the new set using [] and the spread operator will take all element from a set and put it to the new array - because set are iterable
+
+// spread operator take all the elements out of the iterable, and write them in 'staff' like comma separated.
+console.log(staffUnique2); // ["waiter", "chef", "manager"]
+
+console.log(
+  new Set(['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter']).size
+);
+// 3
+
+// if we only want to know the number of unique elements, we do not need to create a new array, use only .size method.
+
+console.log(new Set('krzysztofkraus').size); // 10
+// counting how many letter is in a string
+
+//fixme 116 maps fundamentals
+
+// map is a data structure that we can use to map values to keys, just like an object data is sotred in key value pairs in maps.
+
+// the difference between maps and object it that in maps, the keys can have any type. In objects, the keys are basically always strings, but in maps, we can have any type of key. It can be object, erase or other maps
+
+console.log('----------------- maps --------------');
+
+  //todo creating a map .set()
+
+const rest = new Map();
+// best practice is create empty map and the fill it:
+
+rest.set('name', 'Classico Italiano');
+// the first ('name') is the key name, and the value is a name of the restaurant
+
+// set() method allow us to add elements to the data structure
+
+rest.set(1, 'Firenze, Italy');
+console.log(rest.set(2, 'Lisbon, Portugal'));
+// when the restaurant has two location... the key can be any type of data so here we have a number 
+
+// btw the set method return new set:
+// {"name" => "Classico Italiano", 1 => "Firenze, Italy", 2 => "Lisbon, Portugal"}
+
+// the fact that the .set method returns new set allows us to chain the set method like this:
+
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open :D')
+  .set(false, 'We are closed :(')
+
+  //todo reading data from a map .get()
+
+console.log(rest.get('name')); // Classico Italiano
+console.log(rest.get(true)); // We are open :D
+console.log(rest.get(1)); // Firenze, Italy
+
+const time = 8; 
+console.log(rest.get(time > rest.get('open') && time < rest.get('close'))); 
+// checking whether the restaurant is open or close
+
+// it's ok but it's not readable
+
+  //todo other methods!
+
+console.log(rest.has('categories')); // true
+// whether it has 'categories'
+
+rest.delete(2);
+console.log(rest);
+
+console.log(rest.size);
+
+// console.log(rest.clear());
+
+  //todo using arrays or object as map keys
+
+rest.set([1,2], 'test')
+console.log(rest);
+
+// 0: {"name" => "Classico Italiano"}
+// 1: {1 => "Firenze, Italy"}
+// 2: {"categories" => Array(4)}
+// 3: {"open" => 11}
+// 4: {"close" => 23}
+// 5: {true => "We are open :D"}
+// 6: {false => "We are closed :("}
+// 7: {Array(2) => "test"}
+//   key: (2) [1, 2]
+//   value: "test"
+
+// how to get data based on this array?
+
+console.log(rest.get([1,2])); // undefined!! because the array from 919 line and the 935 code line are not the same object in the heap.
+
+// in order to make it work we need to do this: 
+
+const arr = [1, 2]; 
+rest.set(arr, 'test');
+console.log(rest.get(arr)); // now this two array refers to the same place in memory
+
+rest.set(document.querySelector('h1'), 'Heading');
+console.log(rest);
