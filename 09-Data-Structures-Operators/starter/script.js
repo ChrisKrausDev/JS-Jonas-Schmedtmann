@@ -1259,3 +1259,57 @@ const checkBaggage = function(items) {
 checkBaggage('I have a laptop, some Food and a pocket knife');
 checkBaggage('Socks and camera');
 checkBaggage('Got some snacks and a gun for protection');
+
+//fixme 122 Working with Strings Part 3 
+
+//todo split() 
+
+console.log(('a+very+nice+string').split('+')); // it will split this string by a + => ["a", "very", "nice", "string"]
+
+console.log("Jonas Schmedtmann".split(' ')); // ["Jonas", "Schmedtmann"]
+
+// destructuring an array: 
+
+const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+
+//todo join() - opposite 
+
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName); // from this three elements array creaiting one string: Mr. Jonas SCHMEDTMANN. As a separation (' '), we can use anything.
+
+const capitalizeName = function(name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+
+  for (const n of names) {
+    // namesUpper.push(n[0].toUpperCase() + n.slice(1));
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+    // take the first name and then replace first letter n[0] with the first letter converted to uppercase n[0].toUpperCase();
+  }
+  console.log(namesUpper);
+}
+
+capitalizeName('jessica ann smith davis'); // ["Jessica", "Ann", "Smith", "Davis"]
+capitalizeName('jonas schmedtmann') // ["Jonas", "Schmedtmann"]
+
+//todo padding a string
+// padding a string it mean to add a number of characters to the string until the string has a certain desired length 
+
+const message = 'go to gate 23!';
+console.log(message.padStart(25, '+')); // +++++++++++go to gate 23! => add '+' to the begining of the string so thath the strings length is 25! 
+
+console.log('Jonas'.padStart(25, '+')); // ++++++++++++++++++++Jonas to gate 23!
+
+console.log(message.padStart(25, '+').padEnd(30, '+')); // +++++++++++go to gate 23!+++++
+
+const maskCreditCard = function(number) {
+  const str = number + '' // when one operand of the plus sign is a string it will convert all the operands to a string! We do not need to do => String(number)
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*')
+}
+
+// const number2 = 2;
+// console.log(typeof String(number2));
+
+console.log(maskCreditCard(2039429348093284092));
+console.log(maskCreditCard('2309430950934532333'));
