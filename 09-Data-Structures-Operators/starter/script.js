@@ -732,29 +732,29 @@ const game = {
 // 1. loop over the game.scored array and print each player name to the console, along with the goal number (example: 'goal 1: Lewandowski')
 
 
-for (const item of game.scored.entries()) {
-  // in the array we are using entries() method! 
-  console.log(`Goal ${item[0] + 1} - ${item[1]}`);
-};
+// for (const item of game.scored.entries()) {
+//   // in the array we are using entries() method! 
+//   console.log(`Goal ${item[0] + 1} - ${item[1]}`);
+// };
 
-for (const [i, player] of game.scored.entries())
-  // destructuring the game.scored array ['i' - index of the player, 'player' - es ist klar]
-  console.log(`Goal ${i + 1}: ${player}`);
+// for (const [i, player] of game.scored.entries())
+//   // destructuring the game.scored array ['i' - index of the player, 'player' - es ist klar]
+//   console.log(`Goal ${i + 1}: ${player}`);
 
 //todo 2
 // 2. use a loop to calculate the averange odd and log it to the console 
 
-console.log(Object.values(game.odds));
-// loggs an array with values from game.odds [1.33, 3.25, 6.5]
+// console.log(Object.values(game.odds));
+// // loggs an array with values from game.odds [1.33, 3.25, 6.5]
 
-let averange = 0;
-for (const odd of Object.values(game.odds))
-  averange += odd;
-  // loops over the game.odds values array and added it to the averange in each iteration
+// let averange = 0;
+// for (const odd of Object.values(game.odds))
+//   averange += odd;
+//   // loops over the game.odds values array and added it to the averange in each iteration
 
-averange /= Object.values(game.odds).length;
-// deviding the avg var by a length of the
-console.log(averange);
+// averange /= Object.values(game.odds).length;
+// // deviding the avg var by a length of the
+// console.log(averange);
 
 //todo3
 // 3 Print the 3 odds to the console, but in a nice formatted way, exactly like this: 
@@ -763,16 +763,16 @@ console.log(averange);
     // Odd of victory Borrussia Dortmung: 6.5
 // Get the team names directly from the game object, don't hardoce the (except for 'draw'). HINT: Note how the odds and the game objects have the same property names!
 
-for (const [team, odd] of Object.entries(game.odds)) {
-  // we need to loop through an object, so we can use Object.entries(game.odds) method, where we put in the method an object that we are interested in. We will get an array of arrays which in each position will have both - the team and the odd, so we give the variables names: [team, odd]
+// for (const [team, odd] of Object.entries(game.odds)) {
+//   // we need to loop through an object, so we can use Object.entries(game.odds) method, where we put in the method an object that we are interested in. We will get an array of arrays which in each position will have both - the team and the odd, so we give the variables names: [team, odd]
 
-  const teamStr = team === 'x' ? `draw` : `victory ${game[team]}`; 
-  // it's itearate through Object.entries(game.odds), when it find x under the 'team' will logged draw, else victory and the team name!
+//   const teamStr = team === 'x' ? `draw` : `victory ${game[team]}`; 
+//   // it's itearate through Object.entries(game.odds), when it find x under the 'team' will logged draw, else victory and the team name!
 
-  // game[team] will print once team1 and once time2 becoause so it is named in odds! Will then take that string and put it to `victory ${game[team]` [team] = game.team1 so it is Bayern Munich 
+//   // game[team] will print once team1 and once time2 becoause so it is named in odds! Will then take that string and put it to `victory ${game[team]` [team] = game.team1 so it is Bayern Munich 
 
-  console.log(`Odd of ${teamStr} ${odd}`);
-}
+//   console.log(`Odd of ${teamStr} ${odd}`);
+// }
 
 //fixme 115 SETS
 
@@ -787,38 +787,38 @@ for (const [team, odd] of Object.entries(game.odds)) {
 // 1) set can never have any duplicates
 // 2) an order of elements in the set is irrelevant
 
-console.log('------------------- SETS --------------------');
+// console.log('------------------- SETS --------------------');
 
-const orderSet = new Set([
-  'Pasta',
-  'Pizza', 
-  'Pizza', 
-  'Risotto', 
-  'Pasta',
-]);
+// const orderSet = new Set([
+//   'Pasta',
+//   'Pizza', 
+//   'Pizza', 
+//   'Risotto', 
+//   'Pasta',
+// ]);
 
-console.log(orderSet); // {"Pasta", "Pizza", "Risotto"}
-// returns an array without duplicates
+// console.log(orderSet); // {"Pasta", "Pizza", "Risotto"}
+// // returns an array without duplicates
 
-// sets are iterables, strings also:
-console.log(new Set('Chris')); // {"C", "h", "r", "i", "s"}
+// // sets are iterables, strings also:
+// console.log(new Set('Chris')); // {"C", "h", "r", "i", "s"}
 
     //todo how to work with sets
 
-console.log(orderSet.size); // 3 
-// not length like in arrays 
+// console.log(orderSet.size); // 3 
+// // not length like in arrays 
 
-console.log(orderSet.has('Pizza')); // true
-console.log(orderSet.has('Bread')); // false
-// like includes() in arrays
+// console.log(orderSet.has('Pizza')); // true
+// console.log(orderSet.has('Bread')); // false
+// // like includes() in arrays
 
-orderSet.add('Garlic Bread');
-orderSet.add('Garlic Bread'); 
-console.log(orderSet); // {"Pasta", "Pizza", "Risotto", "Garlic Bread"}
-// with add we can add some elements into a set
+// orderSet.add('Garlic Bread');
+// orderSet.add('Garlic Bread'); 
+// console.log(orderSet); // {"Pasta", "Pizza", "Risotto", "Garlic Bread"}
+// // with add we can add some elements into a set
 
-orderSet.delete('Risotto');
-console.log(orderSet); // {"Pasta", "Pizza", "Garlic Bread"}
+// orderSet.delete('Risotto');
+// console.log(orderSet); // {"Pasta", "Pizza", "Garlic Bread"}
 
 // orderSet.clear(); // {}
 
@@ -826,98 +826,102 @@ console.log(orderSet); // {"Pasta", "Pizza", "Garlic Bread"}
 
 // there is no need to take values out of set, because values are unique and the order of values does not matter. To store and retrive data use arrays
 
-for (const order of orderSet) console.log(order);
+// for (const order of orderSet) console.log(order);
 // if sets are iterable we can do a for loop with them
 
     //todo the big use case for them
 // is to delete duplicates from an array
 
-const staff = ['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter'];
+// const staff = ['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter'];
 
-// and when we need to have an array with unique positions:
+// // and when we need to have an array with unique positions:
 
-const staffUnique = new Set(staff);
-console.log(staffUnique); // {"waiter", "chef", "manager"}
-// we got a set with unique positions, but we want to make an array from it:
+// const staffUnique = new Set(staff);
+// console.log(staffUnique); // {"waiter", "chef", "manager"}
+// // we got a set with unique positions, but we want to make an array from it:
 
-const staffUnique2 = [...new Set(staff)];
-// we can create an array around the new set using [] and the spread operator will take all element from a set and put it to the new array - because set are iterable
+// const staffUnique2 = [...new Set(staff)];
+// // we can create an array around the new set using [] and the spread operator will take all element from a set and put it to the new array - because set are iterable
 
-// spread operator take all the elements out of the iterable, and write them in 'staff' like comma separated.
-console.log(staffUnique2); // ["waiter", "chef", "manager"]
+// // spread operator take all the elements out of the iterable, and write them in 'staff' like comma separated.
+// console.log(staffUnique2); // ["waiter", "chef", "manager"]
 
-console.log(
-  new Set(['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter']).size
-);
-// 3
+// console.log(
+//   new Set(['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter']).size
+// );
+// // 3
 
-// if we only want to know the number of unique elements, we do not need to create a new array, use only .size method.
+// // if we only want to know the number of unique elements, we do not need to create a new array, use only .size method.
 
-console.log(new Set('krzysztofkraus').size); // 10
-// counting how many letter is in a string
+// console.log(new Set('krzysztofkraus').size); // 10
+// // counting how many letter is in a string
 
 //fixme 116 maps fundamentals
 
-// map is a data structure that we can use to map values to keys, just like an object data is sotred in key value pairs in maps.
+// map is a data structure that we can use to map values to keys, just like an object, data is sotred in key value pairs in maps.
 
-// the difference between maps and object it that in maps, the keys can have any type. In objects, the keys are basically always strings, but in maps, we can have any type of key. It can be object, erase or other maps
+// the difference between maps and object it that in maps, the keys can have ANY type. In objects, the keys are basically always strings, but in maps, we can have any type of key. It can be object, erase or other maps
 
-console.log('----------------- maps --------------');
+// console.log('----------------- maps maps maps maps--------------');
 
   //todo creating a map .set()
 
-const rest = new Map();
-// best practice is create empty map and the fill it:
+// const rest = new Map();
+// // best practice is create empty map and the fill it:
 
-rest.set('name', 'Classico Italiano');
+// rest.set('name', 'Classico Italiano');
+// console.log(rest);
 // the first ('name') is the key name, and the value is a name of the restaurant
 
 // set() method allow us to add elements to the data structure
 
-rest.set(1, 'Firenze, Italy');
-console.log(rest.set(2, 'Lisbon, Portugal'));
+// rest.set(1, 'Firenze, Italy');
+// console.log(rest.set(2, 'Lisbon, Portugal'));
 // when the restaurant has two location... the key can be any type of data so here we have a number 
 
 // btw the set method return new set:
 // {"name" => "Classico Italiano", 1 => "Firenze, Italy", 2 => "Lisbon, Portugal"}
 
-// the fact that the .set method returns new set allows us to chain the set method like this:
+// the fact that the .set() method returns new set allows us to chain the set method like this:
 
-rest
-  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
-  .set('open', 11)
-  .set('close', 23)
-  .set(true, 'We are open :D')
-  .set(false, 'We are closed :(')
+// rest
+//   .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+//   .set('open', 11)
+//   .set('close', 23)
+//   .set(true, 'We are open :D')
+//   .set(false, 'We are closed :(')
 
   //todo reading data from a map .get()
 
-console.log(rest.get('name')); // Classico Italiano
-console.log(rest.get(true)); // We are open :D
-console.log(rest.get(1)); // Firenze, Italy
+// console.log(rest.get('name')); // Classico Italiano
+// console.log(rest.get(true)); // We are open :D
+// console.log(rest.get(1)); // Firenze, Italy
 
-const time = 8; 
-console.log(rest.get(time > rest.get('open') && time < rest.get('close'))); 
+// const time = 8; 
+// console.log(rest.get(time > rest.get('open') && time < rest.get('close'))); 
 // checking whether the restaurant is open or close
 
 // it's ok but it's not readable
 
   //todo other methods!
 
-console.log(rest.has('categories')); // true
-// whether it has 'categories'
+// console.log(Array.from(rest)); // creating array from set (and other array like object or iterable objects like Map, Set, etc.)
 
-rest.delete(2);
-console.log(rest);
+// console.log(rest.has('categories')); // true
+// // whether it has 'categories'
 
-console.log(rest.size);
+// rest.delete(2);
+// console.log(rest);
+
+// console.log(rest.size); // number of elements in map
 
 // console.log(rest.clear());
 
   //todo using arrays or object as map keys
 
-rest.set([1,2], 'test')
-console.log(rest);
+// console.log('==========using arrays or object as map keys');
+// rest.set([1,2], 'test')
+// console.log(rest);
 
 // 0: {"name" => "Classico Italiano"}
 // 1: {1 => "Firenze, Italy"}
@@ -932,13 +936,326 @@ console.log(rest);
 
 // how to get data based on this array?
 
-console.log(rest.get([1,2])); // undefined!! because the array from 919 line and the 935 code line are not the same object in the heap.
+// console.log(rest.get([1,2])); // undefined!! because the array from 919 line and the 935 code line are not the same object in the heap.
 
-// in order to make it work we need to do this: 
+// // in order to make it work we need to do this: 
 
-const arr = [1, 2]; 
-rest.set(arr, 'test');
-console.log(rest.get(arr)); // now this two array refers to the same place in memory
+// const arr = [1, 2]; 
+// rest.set(arr, 'test');
+// console.log(rest.get(arr)); // now this two array refers to the same place in memory
 
-rest.set(document.querySelector('h1'), 'Heading');
-console.log(rest);
+// rest.set(document.querySelector('h1'), 'Heading');
+// console.log(rest);
+
+//fixme 117 iteration
+// better way to put more values to the map
+// an array of arrays
+
+// const question = new Map([
+//   ['question', 'what is the best programming language in the world?'],
+//   [1, 'c'],
+//   [2, 'java'],
+//   [3, 'js'],
+//   ['correct', 3],
+//   [true, 'Correct'],
+//   [false, 'Try again!'],
+// ]);
+
+// console.log(question);
+
+// it's similar to this:
+
+// console.log(Object.entries(openingHours));
+
+// 0: (2) ["thr", {…}]
+// 1: (2) ["fri", {…}]
+// 2: (2) ["sat", {…}]
+
+// it is also an array of arrays, where the first el is the key, and the second is a value 
+
+//todo and what this means, there is an easy way to convert from objects to maps
+
+// const hoursMap = new Map(Object.entries(openingHours));
+// console.log(hoursMap);
+
+// converting objects to maps
+
+//todo iteration
+
+// console.log(question.get('question'));
+
+// for (const [key, value] of question) {
+//   if(typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+//   // we want to log only values where 'key' is a number
+// }
+// we will loop over 'question' - each item of the 'question' will contain both the key and the value, and hewe we can now directly restructure that into two separate variables 
+
+// only difference when we loop over objects is that we need Object.entries() method, only because objects are not iterable (but we converting an object to iterable using Object.entries())
+
+//todo quiz game
+
+// const answer = Number(prompt('Your answer'));
+// const output = answer === 3 ? question.get(true) : question.get(false);
+// console.log(output);
+// console.log(answer);
+
+// // jonas 
+
+// console.log(question.get(question.get('correct') === answer));
+// // question.get('correct') === answer - it will return true sooooo
+// // it's similar to console.log(question.get(true));
+
+//todo convert map to array:
+
+// sometimes we need to convert a map back to array  we can do this by simply building new array and then unpacking it with the spread operator
+
+// console.log([...question]); // it's this same: console.log([...question.entries()]);
+// console.log(question.entries());
+// console.log(question.keys());
+// console.log(question.values());
+
+// // it will return MapIterator, but we can do also likt below:
+
+// console.log([...question.keys()]); // print out simple array with keys
+// console.log([...question.values()]); // print out simple array with values
+
+
+
+//fixme 118 Summary: Which Data Structure to Use?
+
+
+/* //todo sorce of data
+
+  1) from the program itself: data written directly in source code (e.g status messages)
+
+  2) From the UI: Data input from the user or data written in DOM (e.g tasks in todo app)
+
+  3) MOST COMMON IN MODERN JS APLICATIONS: From external sources: Data fetched for example from web API (e.g. recipe objects) They come usualy with special data format called JSON
+
+  WHERE DO WE STORE COLLECTION OF DATA?
+
+  For that we use DATA STRUCTURE:
+
+    Simple List => Arrays or Sets
+    Key/Value Pairs => Objects or Maps
+
+*/
+
+// fixme 119: Coding Challenge #3 
+
+// const gameEvents = new Map([
+//   [17, 'GOAL'],
+//   [36, 'Substitution'],
+//   [47, 'GOAL'],
+//   [61, 'Substitution'],
+//   [64, 'Yellow card'],
+//   [69, 'Red Card'],
+//   [70, 'Substitution'],
+//   [72, 'Substitution'],
+//   [76, 'GOAL'],
+//   [80, 'GOAL'],
+//   [92, 'Yellow card']
+// ])
+
+// //TODO 1 Create an array 'events' of the different game events that happend (no duplicates)
+
+//   // console.log([...gameEvents.values()]);
+
+//   const events = Array.from(new Set([...gameEvents.values()]));
+//   console.log(events);
+
+//   // JONAS:
+
+//   const events2 = [...new Set(gameEvents.values())];
+//   console.log(events2);
+
+// //TODO 2 after the game was finished, it was found that the yellow card from minute 64 was unfair. So remove this event from the game events log.
+
+//   gameEvents.delete(64);
+//   console.log(gameEvents);  
+
+// //TODO 3 Print the following string to console: "An event happend, on avarage, every 9 single minutes" (keep in mind that the game has 90 minutes)
+
+//   console.log(`An event happend, on avarage, every ${Array.from([...gameEvents]).length} single minutes`);
+
+//   // JONAS:
+
+//   const gameTime = [...gameEvents.keys()].pop();
+//   console.log(gameTime);
+
+//   console.log(`An event happend, on avarage, every ${gameTime / gameEvents.size} single minutes`);
+
+// //TODO 4 Loop over the events and log them to the console, marking whether it's in the first half or second half (after 45 min) of the game, like this: 
+
+//   // [FIRST HALF] 17: GOAL
+  
+// for (const [key, value] of gameEvents) {
+//   key <= 45 ? console.log(`[FIRST HALF] ${key}: ${value}`) : console.log(`[SECOND HALF] ${key}: ${value}`);
+// };
+
+// // JONAS DRY!!!
+
+// for (const [min, event] of gameEvents) {
+//   const half = min <= 45 ? 'FIRST' : 'SECOND';
+//   console.log(`[${half}] ${min}: ${event}`);
+// }
+
+//fixme 120 - working with strings part1 
+console.log('-------------- working with strings --------------------');
+
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+
+console.log(plane[0]);
+console.log(plane[1]);
+console.log(plane[2]);
+console.log('B737' [0]);
+
+console.log(airline.length);
+console.log('B737'.length);
+
+// strings methods
+
+//todo indexOf()
+
+console.log(airline.indexOf('r')); // it give us the first occurance
+console.log(airline.lastIndexOf('r')); // last occurance 
+console.log(airline.indexOf('portugal')); // -1 because it can't finde it 
+
+//todo slice()
+// with the index we can extranct part of a string using the slice method and a slice method needs indexes as arguments, so therefore sometimes it can be very useful to first figure out the index of part of a string
+
+console.log(airline.slice(4)); // Air Portugal
+
+//first parameter is the position where slice() starts! so that's why it give Air portugal (and it's call substring - just the part of the original string) and it dosen't change the original string (strings are primitives). If we need to use changed string or substring we need to store it in new variable.
+
+console.log(airline.slice(4, 7)); // Air
+// starting and ending parameter
+// length of this substring is alweys 7 - 4 = 3 (second - first = length)
+
+console.log(airline.slice(0, airline.indexOf(' '))); // TAP
+
+console.log(airline.slice(airline.lastIndexOf(' ') +1)); //  Portugal
+
+console.log(airline.slice(-2)); // starts extracting from the end
+
+console.log(airline.slice(1, -1)); // AP Air Portuga
+// starts at 1 omiting first letter at index 0, and with second parameter = -1 it will cutout the last letter
+
+const checkMiddleSeat = function(seat) {
+  // B and E are middle seats
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E') console.log('You got the middle seat :|');
+  else console.log(('You got lucky :D'));
+}
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E')
+
+//todo understanding why this actually works:
+
+// strings are primitives - why do they have methods? Methods normally are only for objects like arreys. JS is really smart... so how this works:
+
+// Whenever we call a method on a string Js will automatically behind the scenes convert that string primitive to a string object with the same content and THEN it's on that object where the methods are called.
+
+// This process is called BOXING because it take our string and puts it into a box which is the object. It looks like this below:
+
+console.log(new String('jonas'));
+console.log(typeof new String('jonas')); // object! 
+
+// When the operation is done the object is converted back to a regular string primitive.
+
+// In fact all string methods return primitives
+
+console.log(typeof new String('jonas').slice(1)); //  string
+
+//fixme 121 Working with Strings Part 2 
+
+//changing the case of a string
+
+console.log(airline.toLowerCase()); // tap air portugal
+console.log(airline.toUpperCase()); // TAP AIR PORTUGAL
+console.log('jonas'.toUpperCase()); // JONAS
+
+// fix capitalization in name
+
+const passenger = 'jOnAS'; // it have to be fixed
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect = 
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+
+console.log(passengerCorrect);
+
+// it's make all letters in lowerCase at first and then make only first letter upperCase and add rest letters without the first one (slice(1))
+
+// Comparing emails
+
+const email = 'hello@jonas.io';
+const loginEmail = '  Hello@Jonas.Io \n';
+
+// checking or this two emails are the same 
+
+const lowerEmail = loginEmail.toLowerCase();
+
+// const trimmedEmail = lowerEmail.trim(); // deleting white spaces
+// console.log(trimmedEmail);
+
+// OR 
+
+// const normalizedEmail = loginEmail.toLowerCase().trim();
+
+// console.log(normalizedEmail); 
+
+const comparingEmails = function (email1) {
+  const normalizedEmail1 = email1.toLowerCase().trim();
+  console.log(email === normalizedEmail1);
+}
+
+
+comparingEmails('  Hello@Jonas.Io \n');
+
+//todo replacing a part of strings
+
+const priceGB = '288,97£';
+const priceUS = priceGB.replace('£', '$').replace(',', '.')
+// first arg it this one which we want to replace 
+// and then we can replace , with the . 
+
+console.log(priceUS);
+
+const announcement = 'All passengers come to bording door 23. Bording door 23!'
+console.log(announcement.replace('door', 'gate')); // All passengers come to bording gate 23. Bording door 23! - it's changed only a first occurance soooo: 
+
+console.log(announcement.replaceAll('door', 'gate')); // All passengers come to bording gate 23. Bording gate 23
+
+// regular expression regex
+
+console.log(announcement.replace(/door/g, 'gate')); // All passengers come to bording gate 23. Bording gate 23!
+
+//todo booleans! include(), startWith(), endWith()
+
+const plane1 = 'A320neo';
+console.log(plane1.includes('A320')); // true
+console.log(plane1.includes('Boeing')); // false
+console.log(plane1.startsWith('Air')); // false
+console.log(plane1.startsWith('A3')); // true
+
+if (plane1.startsWith('A320') && plane1.endsWith('neo')) {
+  console.log('Part of the NEW Airbus family');
+}
+
+// TODO PRACTICE EXERCISE
+
+const checkBaggage = function(items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('You are NOT allowed on board');
+  } else {
+    console.log('Welcome aboard!');
+  }
+}
+
+checkBaggage('I have a laptop, some Food and a pocket knife');
+checkBaggage('Socks and camera');
+checkBaggage('Got some snacks and a gun for protection');
