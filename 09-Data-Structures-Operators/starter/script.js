@@ -1101,57 +1101,57 @@ const game = {
 // }
 
 //fixme 120 - working with strings part1 
-console.log('-------------- working with strings --------------------');
+// console.log('-------------- working with strings --------------------');
 
-const airline = 'TAP Air Portugal';
-const plane = 'A320';
+// const airline = 'TAP Air Portugal';
+// const plane = 'A320';
 
-console.log(plane[0]);
-console.log(plane[1]);
-console.log(plane[2]);
-console.log('B737' [0]);
+// console.log(plane[0]);
+// console.log(plane[1]);
+// console.log(plane[2]);
+// console.log('B737' [0]);
 
-console.log(airline.length);
-console.log('B737'.length);
+// console.log(airline.length);
+// console.log('B737'.length);
 
 // strings methods
 
 //todo indexOf()
 
-console.log(airline.indexOf('r')); // it give us the first occurance
-console.log(airline.lastIndexOf('r')); // last occurance 
-console.log(airline.indexOf('portugal')); // -1 because it can't finde it 
+// console.log(airline.indexOf('r')); // it give us the first occurance
+// console.log(airline.lastIndexOf('r')); // last occurance 
+// console.log(airline.indexOf('portugal')); // -1 because it can't finde it 
 
 //todo slice()
 // with the index we can extranct part of a string using the slice method and a slice method needs indexes as arguments, so therefore sometimes it can be very useful to first figure out the index of part of a string
 
-console.log(airline.slice(4)); // Air Portugal
+// console.log(airline.slice(4)); // Air Portugal
 
 //first parameter is the position where slice() starts! so that's why it give Air portugal (and it's call substring - just the part of the original string) and it dosen't change the original string (strings are primitives). If we need to use changed string or substring we need to store it in new variable.
 
-console.log(airline.slice(4, 7)); // Air
-// starting and ending parameter
-// length of this substring is alweys 7 - 4 = 3 (second - first = length)
+// console.log(airline.slice(4, 7)); // Air
+// // starting and ending parameter
+// // length of this substring is alweys 7 - 4 = 3 (second - first = length)
 
-console.log(airline.slice(0, airline.indexOf(' '))); // TAP
+// console.log(airline.slice(0, airline.indexOf(' '))); // TAP
 
-console.log(airline.slice(airline.lastIndexOf(' ') +1)); //  Portugal
+// console.log(airline.slice(airline.lastIndexOf(' ') +1)); //  Portugal
 
-console.log(airline.slice(-2)); // starts extracting from the end
+// console.log(airline.slice(-2)); // starts extracting from the end
 
-console.log(airline.slice(1, -1)); // AP Air Portuga
-// starts at 1 omiting first letter at index 0, and with second parameter = -1 it will cutout the last letter
+// console.log(airline.slice(1, -1)); // AP Air Portuga
+// // starts at 1 omiting first letter at index 0, and with second parameter = -1 it will cutout the last letter
 
-const checkMiddleSeat = function(seat) {
-  // B and E are middle seats
-  const s = seat.slice(-1);
-  if (s === 'B' || s === 'E') console.log('You got the middle seat :|');
-  else console.log(('You got lucky :D'));
-}
+// const checkMiddleSeat = function(seat) {
+//   // B and E are middle seats
+//   const s = seat.slice(-1);
+//   if (s === 'B' || s === 'E') console.log('You got the middle seat :|');
+//   else console.log(('You got lucky :D'));
+// }
 
-checkMiddleSeat('11B');
-checkMiddleSeat('23C');
-checkMiddleSeat('3E')
+// checkMiddleSeat('11B');
+// checkMiddleSeat('23C');
+// checkMiddleSeat('3E');
 
 //todo understanding why this actually works:
 
@@ -1161,155 +1161,204 @@ checkMiddleSeat('3E')
 
 // This process is called BOXING because it take our string and puts it into a box which is the object. It looks like this below:
 
-console.log(new String('jonas'));
-console.log(typeof new String('jonas')); // object! 
+// console.log(new String('jonas'));
+// console.log(typeof new String('jonas')); // object! 
 
-// When the operation is done the object is converted back to a regular string primitive.
+// // When the operation is done the object is converted back to a regular string primitive.
 
-// In fact all string methods return primitives
+// // In fact all string methods return primitives
 
-console.log(typeof new String('jonas').slice(1)); //  string
+// console.log(typeof new String('jonas').slice(1)); //  string
 
 //fixme 121 Working with Strings Part 2 
 
 //changing the case of a string
 
-console.log(airline.toLowerCase()); // tap air portugal
-console.log(airline.toUpperCase()); // TAP AIR PORTUGAL
-console.log('jonas'.toUpperCase()); // JONAS
+// console.log(airline.toLowerCase()); // tap air portugal
+// console.log(airline.toUpperCase()); // TAP AIR PORTUGAL
+// console.log('jonas'.toUpperCase()); // JONAS
 
-// fix capitalization in name
+// // fix capitalization in name
 
-const passenger = 'jOnAS'; // it have to be fixed
-const passengerLower = passenger.toLowerCase();
-const passengerCorrect = 
-  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+// const passenger = 'jOnAS'; // it have to be fixed
+// const passengerLower = passenger.toLowerCase();
+// const passengerCorrect = 
+//   passengerLower[0].toUpperCase() + passengerLower.slice(1);
 
-console.log(passengerCorrect);
+// console.log(passengerCorrect);
 
 // it's make all letters in lowerCase at first and then make only first letter upperCase and add rest letters without the first one (slice(1))
 
 // Comparing emails
 
-const email = 'hello@jonas.io';
-const loginEmail = '  Hello@Jonas.Io \n';
+// const email = 'hello@jonas.io';
+// const loginEmail = '  Hello@Jonas.Io \n';
 
-// checking or this two emails are the same 
+// // checking or this two emails are the same 
 
-const lowerEmail = loginEmail.toLowerCase();
+// const lowerEmail = loginEmail.toLowerCase();
 
-// const trimmedEmail = lowerEmail.trim(); // deleting white spaces
-// console.log(trimmedEmail);
+// // const trimmedEmail = lowerEmail.trim(); // deleting white spaces
+// // console.log(trimmedEmail);
 
-// OR 
+// // OR 
 
-// const normalizedEmail = loginEmail.toLowerCase().trim();
+// // const normalizedEmail = loginEmail.toLowerCase().trim();
 
-// console.log(normalizedEmail); 
+// // console.log(normalizedEmail); 
 
-const comparingEmails = function (email1) {
-  const normalizedEmail1 = email1.toLowerCase().trim();
-  console.log(email === normalizedEmail1);
-}
+// const comparingEmails = function (email1) {
+//   const normalizedEmail1 = email1.toLowerCase().trim();
+//   console.log(email === normalizedEmail1);
+// }
 
 
-comparingEmails('  Hello@Jonas.Io \n');
+// comparingEmails('  Hello@Jonas.Io \n');
 
 //todo replacing a part of strings
 
-const priceGB = '288,97£';
-const priceUS = priceGB.replace('£', '$').replace(',', '.')
-// first arg it this one which we want to replace 
-// and then we can replace , with the . 
+// const priceGB = '288,97£';
+// const priceUS = priceGB.replace('£', '$').replace(',', '.')
+// // first arg it this one which we want to replace 
+// // and then we can replace , with the . 
 
-console.log(priceUS);
+// console.log(priceUS);
 
-const announcement = 'All passengers come to bording door 23. Bording door 23!'
-console.log(announcement.replace('door', 'gate')); // All passengers come to bording gate 23. Bording door 23! - it's changed only a first occurance soooo: 
+// const announcement = 'All passengers come to bording door 23. Bording door 23!'
+// console.log(announcement.replace('door', 'gate')); // All passengers come to bording gate 23. Bording door 23! - it's changed only a first occurance soooo: 
 
-console.log(announcement.replaceAll('door', 'gate')); // All passengers come to bording gate 23. Bording gate 23
+// console.log(announcement.replaceAll('door', 'gate')); // All passengers come to bording gate 23. Bording gate 23
 
-// regular expression regex
+// // regular expression regex
 
-console.log(announcement.replace(/door/g, 'gate')); // All passengers come to bording gate 23. Bording gate 23!
+// console.log(announcement.replace(/door/g, 'gate')); // All passengers come to bording gate 23. Bording gate 23!
 
 //todo booleans! include(), startWith(), endWith()
 
-const plane1 = 'A320neo';
-console.log(plane1.includes('A320')); // true
-console.log(plane1.includes('Boeing')); // false
-console.log(plane1.startsWith('Air')); // false
-console.log(plane1.startsWith('A3')); // true
+// const plane1 = 'A320neo';
+// console.log(plane1.includes('A320')); // true
+// console.log(plane1.includes('Boeing')); // false
+// console.log(plane1.startsWith('Air')); // false
+// console.log(plane1.startsWith('A3')); // true
 
-if (plane1.startsWith('A320') && plane1.endsWith('neo')) {
-  console.log('Part of the NEW Airbus family');
-}
+// if (plane1.startsWith('A320') && plane1.endsWith('neo')) {
+//   console.log('Part of the NEW Airbus family');
+// };
 
 // TODO PRACTICE EXERCISE
 
-const checkBaggage = function(items) {
-  const baggage = items.toLowerCase();
-  if (baggage.includes('knife') || baggage.includes('gun')) {
-    console.log('You are NOT allowed on board');
-  } else {
-    console.log('Welcome aboard!');
-  }
-}
+// const checkBaggage = function(items) {
+//   const baggage = items.toLowerCase();
+//   if (baggage.includes('knife') || baggage.includes('gun')) {
+//     console.log('You are NOT allowed on board');
+//   } else {
+//     console.log('Welcome aboard!');
+//   }
+// }
 
-checkBaggage('I have a laptop, some Food and a pocket knife');
-checkBaggage('Socks and camera');
-checkBaggage('Got some snacks and a gun for protection');
+// checkBaggage('I have a laptop, some Food and a pocket knife');
+// checkBaggage('Socks and camera');
+// checkBaggage('Got some snacks and a gun for protection');
 
 //fixme 122 Working with Strings Part 3 
 
 //todo split() 
 
-console.log(('a+very+nice+string').split('+')); // it will split this string by a + => ["a", "very", "nice", "string"]
+// console.log(('a+very+nice+string').split('+')); // it will split this string by a + => ["a", "very", "nice", "string"]
 
-console.log("Jonas Schmedtmann".split(' ')); // ["Jonas", "Schmedtmann"]
+// console.log("Jonas Schmedtmann".split(' ')); // ["Jonas", "Schmedtmann"]
 
-// destructuring an array: 
+// // destructuring an array: 
 
-const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+// const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
 
 //todo join() - opposite 
 
-const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
-console.log(newName); // from this three elements array creaiting one string: Mr. Jonas SCHMEDTMANN. As a separation (' '), we can use anything.
+// const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+// console.log(newName); // from this three elements array creaiting one string: Mr. Jonas SCHMEDTMANN. As a separation (' '), we can use anything.
 
-const capitalizeName = function(name) {
-  const names = name.split(' ');
-  const namesUpper = [];
+// const capitalizeName = function(name) {
+//   const names = name.split(' ');
+//   const namesUpper = [];
 
-  for (const n of names) {
-    // namesUpper.push(n[0].toUpperCase() + n.slice(1));
-    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
-    // take the first name and then replace first letter n[0] with the first letter converted to uppercase n[0].toUpperCase();
-  }
-  console.log(namesUpper);
-}
+//   for (const n of names) {
+//     // namesUpper.push(n[0].toUpperCase() + n.slice(1));
+//     namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+//     // take the first name and then replace first letter n[0] with the first letter converted to uppercase n[0].toUpperCase();
+//   }
+//   console.log(namesUpper);
+// }
 
-capitalizeName('jessica ann smith davis'); // ["Jessica", "Ann", "Smith", "Davis"]
-capitalizeName('jonas schmedtmann') // ["Jonas", "Schmedtmann"]
+// capitalizeName('jessica ann smith davis'); // ["Jessica", "Ann", "Smith", "Davis"]
+// capitalizeName('jonas schmedtmann') // ["Jonas", "Schmedtmann"]
 
 //todo padding a string
 // padding a string it mean to add a number of characters to the string until the string has a certain desired length 
 
-const message = 'go to gate 23!';
-console.log(message.padStart(25, '+')); // +++++++++++go to gate 23! => add '+' to the begining of the string so thath the strings length is 25! 
+// const message = 'go to gate 23!';
+// console.log(message.padStart(25, '+')); // +++++++++++go to gate 23! => add '+' to the begining of the string so thath the strings length is 25! 
 
-console.log('Jonas'.padStart(25, '+')); // ++++++++++++++++++++Jonas to gate 23!
+// console.log('Jonas'.padStart(25, '+')); // ++++++++++++++++++++Jonas to gate 23!
 
-console.log(message.padStart(25, '+').padEnd(30, '+')); // +++++++++++go to gate 23!+++++
+// console.log(message.padStart(25, '+').padEnd(30, '+')); // +++++++++++go to gate 23!+++++
 
-const maskCreditCard = function(number) {
-  const str = number + '' // when one operand of the plus sign is a string it will convert all the operands to a string! We do not need to do => String(number)
-  const last = str.slice(-4);
-  return last.padStart(str.length, '*')
-}
+// const maskCreditCard = function(number) {
+//   const str = number + '' // when one operand of the plus sign is a string it will convert all the operands to a string! We do not need to do => String(number)
+//   const last = str.slice(-4);
+//   return last.padStart(str.length, '*')
+// }
 
-// const number2 = 2;
-// console.log(typeof String(number2));
+// // const number2 = 2;
+// // console.log(typeof String(number2));
 
-console.log(maskCreditCard(2039429348093284092));
-console.log(maskCreditCard('2309430950934532333'));
+// console.log(maskCreditCard(2039429348093284092));
+// console.log(maskCreditCard('2309430950934532333'));
+
+//todo repeat
+
+// const message2 = 'Bad wather... all departues delayed';
+
+// // how to log it multiple times?
+
+// console.log(message2.repeat(5));
+
+// const planeInLine = function(n) {
+//   console.log(`There are ${n} planes in line ${'>=>-'.repeat(n)}`);
+// }
+
+// planeInLine(5);
+// planeInLine(2);
+// planeInLine(12);
+
+//fixme 123 coding challenge #4
+console.log('-------=============== coding challenge =========================-------');
+
+//todo write a program that recives a list of variable names written in undescore_case and convert them to camelCase 
+
+//test data:
+
+/*
+
+underscore_case
+ first_name
+Some_Variable
+  calculate_AGE
+delayed_departure
+
+*/
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+
+document.querySelector('button').addEventListener('click', function() {
+  const text = document.querySelector('textarea').value;
+  const arr = text.split('\n');
+  for (let n of arr) {
+    console.log(n.trim().split('_'));
+  } 
+  
+  console.log(arr);
+});
+
+
