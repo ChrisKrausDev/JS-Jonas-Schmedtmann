@@ -1350,15 +1350,58 @@ delayed_departure
 document.body.append(document.createElement('textarea'));
 document.body.append(document.createElement('button'));
 
-
 document.querySelector('button').addEventListener('click', function() {
   const text = document.querySelector('textarea').value;
-  const arr = text.split('\n');
-  for (let n of arr) {
-    console.log(n.trim().split('_'));
-  } 
-  
-  console.log(arr);
+  const rows = text.split('\n');
+  console.log(rows);
+
+  for (const [i, row] of rows.entries()) {
+    const [first, second] = row.toLowerCase().trim().split('_');
+    const output = `${first}${second.replace(
+      second[0],
+      second[0].toUpperCase()
+    )}`;
+    console.log(`${output.padEnd(20)}${'*'.repeat(i + 1)}`);
+  }
 });
 
+/*
 
+1354 - takes value from textarea
+
+1355 - rozdziela na pojedyńcze stringi po odczytaniu \n nowej linii i ładuje to do rows array: 
+
+["underscore_case", " first_name", "Some_Variable", "  calculate_AGE", "delayed_departure"]
+
+1358 - pętla for...of 
+
+ const [first, second] = row.toLowerCase().trim().split('_');
+
+ bierze każdy z elementów tablicy rows np "underscore_case" - rozdziela go na dwa wyrazy za pomocą metody .split('_'), pierwszy wyraz ładuje do zmiennej first, kolejny do second [destrukturyzacja]
+
+1360 
+
+  const output = `${first}${second.replace(
+    second[0],
+    second[0].toUpperCase()
+  )}`;
+
+formatuje output w odpowiedni sposób (dwa wyrazy bez spacji), dodatkowo zmieniając pierwszą literę drugiego wyrazu z małem na dużą co daje pożądany zapis
+
+//todo dodatkowo ikonki *
+
+ for (const [i, row] of rows.entries()) -
+
+    można użyć metody .entries() w for...of loop by móc skorzystać z indeksu iteratora i.
+
+console.log(`${output.padEnd(20)}${'*'.repeat(i + 1)}`);
+
+padEnd example
+
+underscoreCase      *
+firstName           **
+someVariable        ***
+calculateAge        ****
+delayedDeparture    *****
+
+*/
