@@ -203,6 +203,8 @@ newPassport(jonas);
 
 //todo EXAMPLES! 
 
+/*
+
 const oneWord = function(str) {
     return str.replace(/ /g, '').toLowerCase();
 };
@@ -236,3 +238,190 @@ document.body.addEventListener('click', high5);
     // high5 - callback function
 
 ['jonas', 'martha', 'adam'].forEach(high5);
+
+*/
+
+//fixme 130 functions returning functions
+
+// its working because of 'closures'
+
+/* 
+
+const greet = function(greeting) {
+    return function(name) {
+        console.log(`${greeting} ${name}`);
+    }
+}
+
+const greeterHey = greet('Hey');
+greeterHey('Jonas'); // Hey Jonas
+greeterHey('Steven'); // Hey Steven
+
+greet('Hello')('Jonas'); // Hello Jonas
+
+// challenge
+
+const greetArr = greeting => name => console.log(`${greeting} ${name}`);
+
+greetArr('Hi')('Jonas');
+
+*/
+
+//fixme 131 The call and apply Methods 
+
+
+
+const lufthansa = {
+    airline: 'Lufthansa',
+    iataCode: 'LH',
+    booking: [],
+    // book: function() {} - old way, and new way below:
+    book(flightNum, name) {
+        console.log(`${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+        );
+    this.booking.push({flight: `${this.iataCode}${flightNum}`, name})
+    },
+};  
+
+lufthansa.book(239, 'Jonas Schmedtmann');
+lufthansa.book(634, 'John Smith');
+console.log(lufthansa);
+
+    // the 'this' keyword points on lufthansa object itself, because that's the object on which the book method on the 283 line was called.
+
+ const eurowings = {
+     airline: 'Eurowings',
+     iataCode: 'EW',
+     booking: [],
+ };
+
+    // we want to use same book method from lufthansa on eurowings object - without writing it one more time - DRY soooooo: 
+
+ const book = lufthansa.book; 
+
+    // we can store the book() function from lufthansa in new variable called book
+
+    // first class functions
+
+//todo call() method 
+
+//  book(23, 'Sarah Williams') 
+
+    // it dosen't work! It's now just regular function call, and in regular function call the 'this' keyword points to undefined!! (at least in strict mode) 
+
+    // so we need to tell JS explicitly what the this keuword here should be like. There are three function methods to do that: call, apply and bind:
+
+book.call(eurowings, 23, 'Sarah Williams');
+console.log(eurowings);
+
+    // a function is really just an object and object have methods and therefore, function can have methods to, and the call method is one of them
+
+    // in a call() method the first arg is what we want the this keuword to point to
+
+book.call(lufthansa, 239, 'Mary Cooper');
+console.log(lufthansa);
+
+const swiss = {
+    airline: 'Swiss Air Lines',
+    iataCode: 'LX',
+    booking: [],
+}
+
+book.call(swiss, 583, 'Mary Cooper');
+console.log(swiss);
+
+//todo apply() method 
+
+    // works the same as a call() method, with this difference that the apply() does not recive a list of arguments after the this keyword but instead it's gonna take an array of the arguments:
+
+const flightData = [582, 'George Cooper'];
+book.apply(swiss, flightData);
+console.log(swiss);
+
+    // it is no more used in modern JS, because it is a better way like below, it will do this same as that abowe
+
+book.call(swiss, ...flightData);
+
+
+
+//fixme 132: the bind method 
+
+    // bind() does not immediately call the function - it returns a new function, where this keyword is bound. It is set to whatever value we pass into bind
+
+// book.call(eurowings, 23, 'Sarah Wiliams');
+
+const bookEW = book.bind(eurowings);
+const bookLH = book.bind(lufthansa);
+const bookLX = book.bind(swiss);
+
+bookEW(23, 'Steven Williams');
+
+    // here, we dont need do specify the this keyword
+
+const bookEW23 = book.bind(eurowings, 23);
+
+    // we can store new function, specify only for flight nr 23 from eurowings by starting defining the list on parameters and setting the first one to 23
+
+    // so the bookEW23 function needs only the name! flight number is already defined
+
+bookEW23('Jonas Schmedtmann');
+bookEW23('Martha Cooper'); 
+
+    // Specifying parts of the argument beforehend is actually a common pattern called partial application, which means that a part of the arguments of the original function are already applied, already set
+
+//todo practice example: using objects with event listeners: 
+
+lufthansa.planes = 300;
+
+    // adding a new property to lufthansa (planes: 300)
+
+lufthansa.buyPlane = function () {
+    console.log(this);
+
+    this.planes++;
+    console.log(this.planes);
+};
+
+    // we want to add a new plane whenever we click on button
+
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane);
+
+    // it's loggs NaN - because an event handler function the this keyword always point to the element on which that hendler is attached to.
+
+    // 'lufthansa.buyPlane' - hendler function, is attached to 'document.querySelector('.buy')' this element
+
+    // so inside lufthansa.buyPlane the this keyword point to the button element
+
+document
+    .querySelector('.buy')
+    .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+
+    // we need to pass in a function in 'luftha nsa.buyPlane', and we already know that the call method calls the function (that is not what we need), therefore we use bind() - because the bind() will gonna return a new function
+
+//todo partial application 
+
+const addTax = (rate, value) => value + value * rate;
+
+console.log(addTax(0.1, 200));
+
+    // function that calculate a taxes
+
+const addVAT = addTax.bind(null, 0.23);
+// addVAT = value => value + value * 0.23;
+
+    // function to calculate taxes with fix rate at 23% for VAT. First parameter set where the this keyword is pointed to. In this usecase we don't have this keyword so we writing null! 
+
+console.log(addVAT(100));
+console.log(addVAT(300));
+
+    // challenge - creating a function calling another function that working this same as with the bind() method:
+
+const addTaxRate = function(rate) {
+    return function(value) {
+        return value + value * rate;
+    };
+};
+
+const addVAT2 = addTaxRate(0.23);
+console.log(addVAT2(100));
+console.log(addVAT2(23));
