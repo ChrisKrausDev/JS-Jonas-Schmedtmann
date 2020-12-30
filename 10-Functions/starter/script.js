@@ -388,7 +388,7 @@ document.querySelector('.buy').addEventListener('click', lufthansa.buyPlane);
 
     // it's loggs NaN - because an event handler function the this keyword always point to the element on which that hendler is attached to.
 
-    // 'lufthansa.buyPlane' - hendler function, is attached to 'document.querySelector('.buy')' this element
+    // 'lufthansa.buyPlane' - handler function, is attached to 'document.querySelector('.buy')' this element
 
     // so inside lufthansa.buyPlane the this keyword point to the button element
 
@@ -396,7 +396,7 @@ document
     .querySelector('.buy')
     .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
 
-    // we need to pass in a function in 'luftha nsa.buyPlane', and we already know that the call method calls the function (that is not what we need), therefore we use bind() - because the bind() will gonna return a new function
+    // we need to pass in a function in 'lufthansa.buyPlane', and we already know that the call method calls the function (that is not what we need), therefore we use bind() - because the bind() will gonna return a new function
 
 //todo partial application 
 
@@ -425,3 +425,281 @@ const addTaxRate = function(rate) {
 const addVAT2 = addTaxRate(0.23);
 console.log(addVAT2(100));
 console.log(addVAT2(23));
+
+//fixme 133 coding challenge 
+
+/* 
+
+Let's build a simple poll app!
+
+A poll has a question, an array of options from which people can choose, and an array with the number of replies for each option. This data is stored in the starter object below.
+
+Here are your tasks:
+
+1. Create a method called 'registerNewAnswer' on the 'poll' object. The method does 2 things:
+  1.1. Display a prompt window for the user to input the number of the selected option. The prompt should look like this:
+        What is your favourite programming language?
+        0: JavaScript
+        1: Python
+        2: Rust
+        3: C++
+        (Write option number)
+  
+  1.2. Based on the input number, update the answers array. For example, if the option is 3, increase the value AT POSITION 3 of the array by 1. Make sure to check if the input is a number and if the number makes sense (e.g answer 52 wouldn't make sense, right?)
+2. Call this method whenever the user clicks the "Answer poll" button.
+3. Create a method 'displayResults' which displays the poll results. The method takes a string as an input (called 'type'), which can be either 'string' or 'array'. If type is 'array', simply display the results array as it is, using console.log(). This should be the default option. If type is 'string', display a string like "Poll results are 13, 2, 4, 1". 
+4. Run the 'displayResults' method at the end of each 'registerNewAnswer' method call.
+
+HINT: Use many of the tools you learned about in this and the last section 😉
+
+BONUS: Use the 'displayResults' method to display the 2 arrays in the test data. Use both the 'array' and the 'string' option. Do NOT put the arrays in the poll object! So what shoud the this keyword look like in this situation?
+
+BONUS TEST DATA 1: [5, 2, 3]
+BONUS TEST DATA 2: [1, 5, 3, 9, 6, 1]
+
+GOOD LUCK 😀
+
+*/
+
+//todo my solution: 
+
+/*  
+
+const poll = {
+    question: 'What is your favourite programming language?',
+    options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+    // This generates [0, 0, 0, 0]. More in the next section 😃
+    answers: new Array(4).fill(0),
+    registerNewAnswer() {
+        let userInput = prompt(`${this.question}\n${this.options.toString().split(",").join("\n")} + \n(write option number)`);
+        if (userInput >= 0 && userInput <=3) {
+            this.answers[userInput]++
+            // console.log(this.answers);
+        } else {
+            console.log('WRONG! Give number from 0 to 3');
+        };
+        this.displayResults('string');
+    },
+    displayResults(type) {
+        if (type === 'array') {
+            console.log(this.answers);
+        } else if (type === 'string') {
+            console.log(`Poll results are: ${[...this.answers]}`);
+        }
+    }
+};
+
+document.querySelector('.poll').addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+let arr1 = [5, 2, 3];
+let arr2 = [1, 5, 3, 9, 6, 1];
+
+*/
+
+/*
+
+//todo jonas solution:
+
+const poll = {
+    question: 'What is your favourite programming language?',
+    options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+    // This generates [0, 0, 0, 0]. More in the next section 😃
+    answers: new Array(4).fill(0),
+    registerNewAnswer() {
+        // get answer
+
+        const answer = Number(
+            prompt(
+                `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+                ) 
+            );
+            console.log(answer);
+
+        // register answer
+
+        typeof answer === 'number' && answer < this.answers.length && this.answers[answer]++;
+
+                // if every of this condition are true, the last one will be executet (short circuiting)
+                
+        this.displayResults();
+        this.displayResults('string');
+    },
+    displayResults(type = 'array') {
+        if (type === 'array') {
+            console.log(this.answers);
+        } else if (type === 'string') {
+            console.log(`Poll results are ${this.answers.join(', ')}`);
+        }
+    }   
+};
+
+document.querySelector('.poll').addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+//todo BONUS 
+
+poll.displayResults.call({answers: [5, 2, 3]}); // [5, 2, 3]
+
+    // we need to use call() because we need a new 'this' keyword
+
+    // second we need to create new object, because this method looks for data which are stored in 'answers' property
+
+poll.displayResults.call({answers: [5, 2, 3]}, 'string'); // Poll results are 5, 2, 3
+
+// [5, 2, 3];
+// [1, 5, 3, 9, 6, 1];
+
+*/
+
+//fixme 134 Immediately invoked function expression (IIFE) 
+
+    /* 
+
+    sometimes in JS we need a function that is executed only once, and never again. Why we need it?
+
+    Function creating scope, and one scope does not have access to variables from an inner scope
+
+    Its no more used in modern JS, because when we need a data privacy we are creating variables let or const in their own block (inner scope, no acces from outside) 
+
+    but u can use it if u want to execute some pice of code ONLY ONCE
+
+    */ 
+
+/* 
+
+const runOnce = function() {
+    console.log('This will never run again');
+};
+runOnce();
+
+// (function() {
+//     console.log('This will never run again');
+// })
+
+    // with ( ) we did transform the statement into an expression! But this funciton will not be executited. We have to call it with another () at the end: 
+
+(function() {
+    console.log('This will never run again with ()');
+})();
+
+    // and this is IIFE
+
+(() => console.log('This will ALSO never run again'))();
+
+
+{
+    const isPrivate = 23;
+    var notPrivate = 46;
+}
+    // var and let create their own scope inside the block
+
+// console.log(isPrivate); // not defined ERROR (out of scope)
+console.log(notPrivate); // 46
+
+*/ 
+
+//fixme 135 Closures 
+
+    /*
+
+    Closure is not a feature that we explicitly use. We do not create closures manually, like we create a new array or a new function
+
+    A closure simply happens automatically in certain situations. We just need to recognize those situations
+
+    */ 
+
+const secureBooking = function() { // secure, because   the   passengerCount cannot be manipulated from outside
+    let passengerCount = 0;
+
+    return function() {
+        passengerCount++;
+        console.log(`${passengerCount} passengers`);
+    }
+
+};
+
+const booker = secureBooking();
+    
+    // we creating new function (booker) from secureBooking()
+
+booker();   // 1 passengers
+booker();   // 2 passengers
+booker();   // 3 passengers
+
+    /* 
+
+    but how can the booker() increment the passengerCount which is defined inside of the secureBooking function thats already finished executing?
+
+    //todo the closure makes a function remember all the variables that existed at the function's birthplace essentioally
+
+    any function always has access to the variable envirnment of the execution context in which the function was created  
+
+    SO
+
+    the booker() function was created in the execution context of secure booking, which was popped off the stack previously, so therefor the booker() will get access to this variable environment, which contains the passengerCount variable. So it can read and manipylate the passengerCount variable
+
+    //todo THAT'S THE CLOSURE 
+
+    DEFINITIONS:
+
+    A closure is the closed-over VARIABLE ENVIRONMENT of the execution context in which a function was created, even after that execution context is gone;
+
+    A closure gives a function access to all the variables of its parent function, even after that parent function has returned. The function keeps a reference to its outer scope, which preserves the scope chain throughout time.
+
+    A closure makes sure that a function doesn't loose connection to variables that existed at the function's birth place 
+
+    A closure is like a backpack that a function carries around wherever it goes. This backpack has all the variables that were present in the environment where the function was created.
+
+    */
+
+console.dir(booker);
+
+    // we can take a look on the scope and closure in the function
+
+//fixme 136 More Closure Examples 
+
+//todo example 1
+
+let f; 
+
+const g = function() {
+    const a = 23;
+    f = function() {
+        console.log(a * 2);
+    };
+};
+
+const h = function() {
+    const b = 777;
+    f = function() {
+        console.log(b * 2);
+    };
+};
+
+g();
+f(); 
+
+console.dir(f);
+
+// Re-assigning f function
+h();
+f();
+
+console.dir(f);
+
+//todo example 2 
+
+const boardPassengers = function(n, wait) {
+    const perGroup = n / 3;
+
+    setTimeout(function(){
+        console.log(`We are now boarding all ${n} passengers`);
+        console.log(`There are 3 groups, each with ${perGroup} passengers`);
+    }, wait * 1000)
+
+
+    console.log(`will start boarding in ${wait} seconds`);
+};
+
+const perGroup = 1000; // closure have a priority over scope! JS do not use this variable
+
+boardPassengers(180, 3)
