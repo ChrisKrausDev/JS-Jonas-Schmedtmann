@@ -421,15 +421,18 @@
 //     if (dice === 6) console.log('Loop is about to end...');
 // }
 
-var uniqueInOrder = function (iterable) {
-  var list = iterable.split("");
-  var list2 = [];
-  for (i = 0; i < list.length; i++) {
-    if (list[i] == !list[i - 1]) {
-      list2.push(list[i]);
-    }
-  }
-  return list;
-};
+// var uniqueInOrder = function (iterable) {
+//   var list = iterable.split("");
+//   var list2 = [];
+//   for (i = 0; i < list.length; i++) {
+//     if (list[i] == !list[i - 1]) {
+//       list2.push(list[i]);
+//     }
+//   }
+//   return list;
+// };
 
-console.log(uniqueInOrder("AAAABBBCCDAABBB"));
+// console.log(uniqueInOrder("AAAABBBCCDAABBB"));
+
+console.log('aaaa');
+

@@ -658,6 +658,7 @@ console.dir(booker);
 //fixme 136 More Closure Examples 
 
 //todo example 1
+console.log('^^^^^^^^^^^^^^^^^^^^ closure: example 1');
 
 let f; 
 
@@ -669,14 +670,14 @@ const g = function() {
 };
 
 const h = function() {
-    const b = 777;
+    const b = 333;
     f = function() {
         console.log(b * 2);
     };
 };
 
 g();
-f(); 
+f();
 
 console.dir(f);
 
@@ -702,4 +703,15 @@ const boardPassengers = function(n, wait) {
 
 const perGroup = 1000; // closure have a priority over scope! JS do not use this variable
 
-boardPassengers(180, 3)
+boardPassengers(180, 3);
+
+//fixme 137 coding challenge #2 
+
+(function () {
+    const header = document.querySelector('h1');
+    header.style.color = 'red';
+
+    document.querySelector('body').addEventListener('click', function() {
+        header.style.color = 'blue';
+    })
+})();

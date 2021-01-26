@@ -402,9 +402,11 @@ GOOD LUCK 😀
   const header = document.querySelector('h1');
   header.style.color = 'red';
 
-  document.querySelector('body').addEventListener('click', function () {
+  document.querySelector('body').addEve
+  ntListener('click', function () {
     header.style.color = 'blue';
   });
 })();
 */
 
+console.log('aaa');
