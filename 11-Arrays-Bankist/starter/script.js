@@ -61,6 +61,43 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+
+// It's a good practice, to pass data into a function instaed in global scope. So we need to create a function simulating a movements in your bank account
+
+const displayMovements = function(movements) {
+  containerMovements.innerHTML = '';
+  // .textContent = 0 - in pig game
+
+  movements.forEach(function(mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal'
+
+    const html = `
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
+      <div class="movements__value">${mov}</div>
+    </div>`;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+
+/* 
+
+insertAdjacentHTML accept 2 strings
+
+  'afterbegin' - normal order
+  'beforeend' - reversed order (new element will be added after the previous one, at the end of container)
+
+innerHTML is similar to textContent. The differences: 
+
+       textContent returns the text itself, while innerHTML returns everytjing includin the HTML
+
+*/ 
+
+displayMovements(account1.movements);
+
+// console.log(containerMovements.innerHTML); // it shown HTML that we just created! 
+
 //t///////////////////////////////////////////////
 //t LECTURES
 
@@ -71,7 +108,7 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
@@ -152,23 +189,23 @@ let arr = ['a', 'b', 'c', 'd', 'e'];
 
 //t 141 looping arrays: forEach 
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // for (const movement of movements) {
 
 // but if we need a counter: 
 
-for (const [i, movement] of movements.entries()) {
-  if(movement > 0) {
-    console.log(`Movement ${i + 1}: You deposited ${movement}`);
-  } else {
-    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
-  }
-}
+// for (const [i, movement] of movements.entries()) {
+//   if(movement > 0) {
+//     console.log(`Movement ${i + 1}: You deposited ${movement}`);
+//   } else {
+//     console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
+//   }
+// }
 
 // entries() another method, it returns an array of arrays which in first position contains a current index and then the value itself - this is how we access a counter variable in the for of loop
 
-console.log('------------ forEach ---------------');
+// console.log('------------ forEach ---------------');
 
 /* 
 
@@ -185,13 +222,13 @@ those statements dosen't work with forEach() !
 
 // with counter: the callback function passes also index and array. 
 
-movements.forEach(function(movement, index, array) { 
-  if(movement > 0) {
-    console.log(`Movement ${index + 1}: You deposited ${movement}`);
-  } else {
-    console.log(`Movement ${index + 1}: You withdrew ${Math.abs(movement)}`);
-  }
-});
+// movements.forEach(function(movement, index, array) { 
+//   if(movement > 0) {
+//     console.log(`Movement ${index + 1}: You deposited ${movement}`);
+//   } else {
+//     console.log(`Movement ${index + 1}: You withdrew ${Math.abs(movement)}`);
+//   }
+// });
 
 // forEach() is higher order function
 
@@ -201,3 +238,84 @@ movements.forEach(function(movement, index, array) {
 // 1: function(450)
 // 2: function(400)
 
+//t coding challenge $1 
+//t                     
+
+/*
+Julia and Kate are doing a study on dogs. So each of them asked 5 dog owners about their dog's age, and stored the data into an array (one array for each). For now, they are just interested in knowing whether a dog is an adult or a puppy. A dog is an adult if it is at least 3 years old, and it's a puppy if it's less than 3 years old.
+
+Create a function 'checkDogs', which accepts 2 arrays of dog's ages ('dogsJulia' and 'dogsKate'), and does the following things:
+
+1. Julia found out that the owners of the FIRST and the LAST TWO dogs actually have cats, not dogs! So create a shallow copy of Julia's array, and remove the cat ages from that copied array (because it's a bad practice to mutate function parameters)
+2. Create an array with both Julia's (corrected) and Kate's data
+3. For each remaining dog, log to the console whether it's an adult ("Dog number 1 is an adult, and is 5 years old") or a puppy ("Dog number 2 is still a puppy 🐶")
+4. Run the function for both test datasets
+
+HINT: Use tools from all lectures in this section so far 😉
+
+TEST DATA 1: Julia's data [3, 5, 2, 12, 7], Kate's data [4, 1, 15, 8, 3]
+TEST DATA 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4]
+
+GOOD LUCK 😀
+*/
+
+//t
+// const juliaDogs = [3, 5, 2, 12, 7];
+// const kateDogs = [4, 1, 15, 8, 3];
+
+// const checkDogs = function(arr1, arr2){
+//   const array = arr1.slice(1, arr.length - 2);
+//   const concatedArray = array.concat(arr2);
+  
+//   concatedArray.forEach(function(mov, i) {
+//     let dogAge = mov >= 3 ? 'an adult' : 'a puppy';
+//     console.log(`Dog number ${i + 1} is ${dogAge}, and is ${mov} years old`);
+//  })
+
+// };
+
+// checkDogs(juliaDogs, kateDogs);
+//t
+
+//t 146: data transformation: map, filter, reduce 
+
+/*
+
+  map
+    can loop over arrays, similar to forEach() but it will create a brand new array based on original array
+
+
+  filter
+    is used to filter for elements in the original array. Returns a new array based on the original array filtered with the any condition
+
+
+  reduce
+    used to boild down all elements of an array to create a single value
+
+
+*/
+
+//t 147 the map method 
+
+const eurToUsd = 1.1;
+
+// const movementsUSD = movements.map(function(mov) {
+//   return mov * eurToUsd;
+// });
+
+const movementsUSD = movements.map(mov => mov * eurToUsd);
+
+console.log(movements);
+console.log(movementsUSD);
+
+const movementsUSDfor = [];
+for(const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+
+console.log(movementsUSDfor);
+  
+const movementsDecriptions = movements.map((mov, i) =>
+
+  `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`
+  );
+
+console.log(movementsDecriptions);
