@@ -303,6 +303,8 @@ const eurToUsd = 1.1;
 //   return mov * eurToUsd;
 // });
 
+//  the same with arrow fucnction: 
+
 const movementsUSD = movements.map(mov => mov * eurToUsd);
 
 console.log(movements);
@@ -319,3 +321,62 @@ const movementsDecriptions = movements.map((mov, i) =>
   );
 
 console.log(movementsDecriptions);
+
+//t 149 computing usernames 
+
+// const user = 'Steven Thomas Williams'; // należy z imienia stworzyć inicjały: stw
+
+// const username = user.toLowerCase().split(' ').map(function(name) {
+//   return name[0]
+// }).join('');
+
+// const username = user.toLowerCase().split(' ').map(name => name[0]).join('');
+
+// looping przez array, zapisywanie pierwszej litery z każdego wyrazu by uzyskać inicjały
+
+// const username = user.toLowerCase().split(' ') - to daje tylko imiona i nazwisko jako array, z małych liter
+
+// wszystko powyższe można łatwiej zapisać w tej formie: 
+
+const createUserNames = function(accs) {
+  accs.forEach(function(acc) {
+    acc.username = acc.owner
+    .toLowerCase()
+    .split(' ')
+    .map(name => name[0])
+    .join('');
+  })  
+};
+
+// przy tej funkcji nie używamy return, ponieważ wykonujemy jakieś określone zadanie na tej tablicy, nie tworzymy nowej wartości do zwrócenia
+
+createUserNames(accounts);
+console.log(accounts); // username js, jd etc
+
+//t 150 the filter method 
+
+const deposits = movements.filter(function(mov) {
+  return mov > 0; // wszystkie > 0 zostaną wpisane w deposits
+});
+
+console.log(movements); // [200, 450, -400, 3000, -650, -130, 70, 1300]
+console.log(deposits); // [200, 450, 3000, 70, 1300]
+
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals);
+
+//t 151 the reduce method 
+
+console.log(movements);
+
+// accumulator -> SNOWBALL
+// const balance = movements.reduce(function(acc, cur, i, arr) {
+//   console.log(`Iteration ${i}: ${acc}`);
+//   return acc + cur 
+// }, 0); // initial value
+
+// or: 
+
+const balance = movements.reduce((acc, cur) => acc + cur, 0);
+
+console.log(balance);
