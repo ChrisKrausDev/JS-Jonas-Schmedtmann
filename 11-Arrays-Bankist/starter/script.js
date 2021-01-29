@@ -74,7 +74,7 @@ const displayMovements = function(movements) {
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-      <div class="movements__value">${mov}</div>
+      <div class="movements__value">${mov} EUR</div>
     </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -94,12 +94,62 @@ innerHTML is similar to textContent. The differences:
 
 */ 
 
+// console.log(containerMovements.innerHTML); // it shown HTML that we just created! 
+
+// poniżej podsumowanie stanu konta plus odsetki
+
+const calcDisplaySummary = function(movements) {
+  const incomes = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}EUR`;
+
+  const outcomes = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(outcomes)} EUR`;
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * 1.2/100)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1;
+    }) // dodaje tylko odsetki od każdego depozytu ale tylko >= 1
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest} EUR`;
+}
+
+calcDisplaySummary(account1.movements);
+
+const createUserNames = function(accs) {
+  accs.forEach(function(acc) {
+    acc.username = acc.owner
+    .toLowerCase()
+    .split(' ')
+    .map(name => name[0])
+    .join('');
+  })  
+};
+
+createUserNames(accounts);
+
 displayMovements(account1.movements);
 
-// console.log(containerMovements.innerHTML); // it shown HTML that we just created! 
+const calcDisplayBalance = function(movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+
+// kalkulacja i wyświetlanie balance 
+
+calcDisplayBalance(account1.movements);
 
 //t///////////////////////////////////////////////
 //t LECTURES
+
+// t
+// t
 
 
 const currencies = new Map([
@@ -324,6 +374,8 @@ console.log(movementsDecriptions);
 
 //t 149 computing usernames 
 
+/*
+
 // const user = 'Steven Thomas Williams'; // należy z imienia stworzyć inicjały: stw
 
 // const username = user.toLowerCase().split(' ').map(function(name) {
@@ -338,19 +390,8 @@ console.log(movementsDecriptions);
 
 // wszystko powyższe można łatwiej zapisać w tej formie: 
 
-const createUserNames = function(accs) {
-  accs.forEach(function(acc) {
-    acc.username = acc.owner
-    .toLowerCase()
-    .split(' ')
-    .map(name => name[0])
-    .join('');
-  })  
-};
+//fixme kontynuacja w linii 100
 
-// przy tej funkcji nie używamy return, ponieważ wykonujemy jakieś określone zadanie na tej tablicy, nie tworzymy nowej wartości do zwrócenia
-
-createUserNames(accounts);
 console.log(accounts); // username js, jd etc
 
 //t 150 the filter method 
@@ -365,7 +406,11 @@ console.log(deposits); // [200, 450, 3000, 70, 1300]
 const withdrawals = movements.filter(mov => mov < 0);
 console.log(withdrawals);
 
+*/
+
 //t 151 the reduce method 
+
+/* 
 
 console.log(movements);
 
@@ -378,5 +423,75 @@ console.log(movements);
 // or: 
 
 const balance = movements.reduce((acc, cur) => acc + cur, 0);
-
 console.log(balance);
+
+// max value for balance
+
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) 
+    return acc;
+  else
+    return mov;
+}, movements[0]);
+
+console.log('max value of balance:' + max);
+
+*/
+
+//t coding challenge                                            
+
+// map, filter, reduce
+
+/*
+
+const dogList = [5, 2, 4, 1, 15, 8, 3];
+const dogList2 = [16, 6, 10, 5, 6, 1, 4];
+
+const dogAgeConverter = (arr => arr
+  .map(cur => cur <= 2 ? cur * 2 : 16 + cur * 4)
+  .filter(cur => cur > 18)
+  .reduce((acc, cur) => acc + cur) / arr.length
+);
+
+// ŹLE OBLICZA ŚREDNIĄ!!!! BO BIERZE ILOŚĆ EL W TABLICY Z PRZED .FILTER!!! 
+
+console.log(dogAgeConverter(dogList));
+console.log(dogAgeConverter(dogList2));
+
+//todo guy solution 
+
+const calcAverangeHumanAge = function(ages) {
+  const humanAges = ages.map(age => age <= 2 ? 2 * age : 16 + age * 4);
+  const adults = humanAges.filter(age => age >= 18)
+  const average = adults.reduce((acc, age) => acc + age, 0) / adults.length;
+
+  return average; 
+};
+const avg1 = calcAverangeHumanAge(dogList);
+const avg2 = calcAverangeHumanAge(dogList2);
+
+console.log(avg1);
+console.log(avg2);
+
+*/ 
+
+//t 153 the magic of chaining methods 
+
+// how much was deposid in accound in USD 
+
+// const eurToUsd = 1.1;
+
+// pipeline
+const totalDepositsUSD = movements
+  .filter(mov => mov > 0)
+  .map((mov, i, arr) => {
+    // console.log(arr); // tak można sprawdzić co nie gra
+    return mov * eurToUsd
+  })
+  // .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0);
+   
+console.log(totalDepositsUSD);
+
+// how to find an error in pipeline? by using array parameter, that we can accec to in this callback function (mov, i, arr)
+
