@@ -74,7 +74,7 @@ const displayMovements = function(movements) {
     const html = `
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-      <div class="movements__value">${mov} EUR</div>
+      <div class="movements__value">${mov} €</div>
     </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -102,25 +102,23 @@ const calcDisplaySummary = function(movements) {
   const incomes = movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes}EUR`;
+  labelSumIn.textContent = `${incomes} €`;
 
   const outcomes = movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(outcomes)} EUR`;
+  labelSumOut.textContent = `${Math.abs(outcomes)} €`;
 
   const interest = movements
     .filter(mov => mov > 0)
     .map(deposit => deposit * 1.2/100)
     .filter((int, i, arr) => {
-      console.log(arr);
+      // console.log(arr);
       return int >= 1;
     }) // dodaje tylko odsetki od każdego depozytu ale tylko >= 1
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest} EUR`;
-}
-
-calcDisplaySummary(account1.movements);
+  labelSumInterest.textContent = `${interest} €`;
+};
 
 const createUserNames = function(accs) {
   accs.forEach(function(acc) {
@@ -134,16 +132,55 @@ const createUserNames = function(accs) {
 
 createUserNames(accounts);
 
-displayMovements(account1.movements);
-
 const calcDisplayBalance = function(movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} EUR`;
+  labelBalance.textContent = `${balance} €`;
 };
 
 // kalkulacja i wyświetlanie balance 
 
-calcDisplayBalance(account1.movements);
+// Event handler 
+//todo logowanie 
+
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  // zapobiega odświeżaniu strony - domyślne zachowanie dla tego elementu
+  // prevent form from submitting
+  e.preventDefault() 
+  console.log('LOGIN');
+
+currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+console.log(currentAccount);
+
+// sprawdzanie czy user istnieje oraz walidacja pinu
+
+// if(currentAccount && currentAccount.pin === Number(inputLoginPin.value)) {
+//   console.log('LOGIN');
+// }
+
+// ale można lepiej przy wykorzystaniu optional chaining: jeśli currentAccount istnieje to pisz currentAccount.pin - jeślnie nie ma takiego loginu to pisze undefined
+
+if(currentAccount?.pin === Number(inputLoginPin.value)) {
+  //todo Display UI and welcome message
+  labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`; // Welcome back, Jonas
+  containerApp.style.opacity = 100;
+
+  //todo Display movements 
+
+  displayMovements(currentAccount.movements);
+
+  //todo Display balance 
+
+  calcDisplayBalance(currentAccount.movements);
+
+  //todo Display summary
+
+  calcDisplaySummary(currentAccount.movements);
+}
+});
+
+// 16:27
 
 //t///////////////////////////////////////////////
 //t LECTURES
@@ -347,6 +384,8 @@ GOOD LUCK 😀
 
 //t 147 the map method 
 
+/*
+
 const eurToUsd = 1.1;
 
 // const movementsUSD = movements.map(function(mov) {
@@ -371,6 +410,8 @@ const movementsDecriptions = movements.map((mov, i) =>
   );
 
 console.log(movementsDecriptions);
+
+*/ 
 
 //t 149 computing usernames 
 
@@ -460,6 +501,9 @@ console.log(dogAgeConverter(dogList2));
 
 //todo guy solution 
 
+const dogList = [5, 2, 4, 1, 15, 8, 3];
+const dogList2 = [16, 6, 10, 5, 6, 1, 4];
+
 const calcAverangeHumanAge = function(ages) {
   const humanAges = ages.map(age => age <= 2 ? 2 * age : 16 + age * 4);
   const adults = humanAges.filter(age => age >= 18)
@@ -473,9 +517,11 @@ const avg2 = calcAverangeHumanAge(dogList2);
 console.log(avg1);
 console.log(avg2);
 
-*/ 
+ */
 
 //t 153 the magic of chaining methods 
+
+/*
 
 // how much was deposid in accound in USD 
 
@@ -491,7 +537,48 @@ const totalDepositsUSD = movements
   // .map(mov => mov * eurToUsd)
   .reduce((acc, mov) => acc + mov, 0);
    
-console.log(totalDepositsUSD);
+console.log(totalDepositsUSD);  
 
 // how to find an error in pipeline? by using array parameter, that we can accec to in this callback function (mov, i, arr)
 
+*/
+
+//t coding challenge #3 
+
+/*
+
+const dogAgeConverter = (arr => arr
+  .map(cur => cur <= 2 ? cur * 2 : 16 + cur * 4)
+  .filter(cur => cur >= 18)
+  .reduce((acc, cur, i, arr2) => acc + cur / arr.length)
+);
+
+const avg3 = calcAverangeHumanAge(dogList);
+const avg4 = calcAverangeHumanAge(dogList2);
+
+console.log(`psie lata, średnia: ${avg3} ${avg4}`);
+
+*/
+
+//t 155 find method 
+
+// it will show first element of the array, that satysfies the conditions
+
+// filter() will show all elements that satysfies the conditions
+
+// it will not return a new array (filter() return new array)
+
+/*
+
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(firstWithdrawal); // -400
+
+console.log(accounts); 
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis'); 
+
+console.log(account); // {owner: "Jessica Davis", movements: Array(8), interestRate: 1.5, pin: 2222, username: "jd"}
+
+*/ 
+
+// so it returns this particular one object
