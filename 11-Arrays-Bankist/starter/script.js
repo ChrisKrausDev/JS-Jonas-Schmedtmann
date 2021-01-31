@@ -230,6 +230,30 @@ btnTransfer.addEventListener('click', function(e) { // e -> event
 
 });
 
+//t 159 some() 
+//todo loan request 
+
+btnLoan.addEventListener('click', function(e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  //todo sprawdzenie czy jest jakiś depozyt minimum 10% kwoty 
+
+  if(amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) 
+  
+  // above perfect usecase for .some() method. If any of element of the movements array pass this condition it will give true 
+  {
+    //todo add movement
+    currentAccount.movements.push(amount);
+
+    //todo update UI 
+    updateUI(currentAccount);
+  }
+    //todo clear input field 
+  inputLoanAmount.value = '';
+})
+
 //t 158 findIndex() 
 
 btnClose.addEventListener('click', function(e) {
@@ -255,13 +279,14 @@ btnClose.addEventListener('click', function(e) {
   }
 
   inputCloseUsername.value = inputClosePin.value = ''
-})
+});
+
 
 //t///////////////////////////////////////////////
 //t LECTURES
 
-// t
-// t
+// t                                                
+// t                                                
 
 
 const currencies = new Map([
@@ -657,3 +682,38 @@ console.log(account); // {owner: "Jessica Davis", movements: Array(8), interestR
 */ 
 
 // so it returns this particular one object
+
+//t 159 some & every methods 
+
+//todo .some() 
+
+console.log(movements);
+
+// EQUALITY
+console.log(movements.includes(-130)); //  true, taka wartośc znajduje się w array movements 
+
+// how to check or there are any deposites on this account?
+
+// CONDITION
+console.log(movements.some(mov => mov === -130));
+
+const anyDeposits = movements.some(mov => mov > 0);
+console.log(anyDeposits); //  true
+
+const anyDeposits2 = movements.some(mov => mov > 5000);
+console.log(anyDeposits2); //  true
+
+//todo .every() 
+
+// did are movements are deposits? 
+console.log(movements.every(mov => mov > 0)); // false 
+console.log(account4.movements.every(mov => mov > 0)); //  true
+
+//todo Separate callback 
+
+// dzięki temu można użyć tą samą funkcję w dowolnym mijescu jako callback! 
+
+const deposit = mov => mov > 0;
+console.log(movements.some(deposit)); //  true! 
+console.log(movements.every(deposit));
+console.log(movements.filter(deposit));
