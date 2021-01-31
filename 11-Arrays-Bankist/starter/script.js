@@ -96,22 +96,28 @@ innerHTML is similar to textContent. The differences:
 
 // console.log(containerMovements.innerHTML); // it shown HTML that we just created! 
 
-// poniżej podsumowanie stanu konta plus odsetki
+const calcDisplayBalance = function(acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
+};
 
-const calcDisplaySummary = function(movements) {
-  const incomes = movements
+// poniżej podsumowanie stanu konta plus odsetki
+// by do każdego konta wyliczać stopę odsetek indywidualnie potrzebujemy account jako parametru.
+
+const calcDisplaySummary = function(acc) {
+  const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${incomes} €`;
 
-  const outcomes = movements
+  const outcomes = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(outcomes)} €`;
 
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => deposit * 1.2/100)
+    .map(deposit => deposit * acc.interestRate / 100)
     .filter((int, i, arr) => {
       // console.log(arr);
       return int >= 1;
@@ -132,10 +138,17 @@ const createUserNames = function(accs) {
 
 createUserNames(accounts);
 
-const calcDisplayBalance = function(movements) {
-  const balance = movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${balance} €`;
-};
+const updateUI = function(acc) {
+
+   // Display movements 
+  displayMovements(acc.movements);
+
+  // Display balance 
+  calcDisplayBalance(acc);
+
+  // Display summary
+  calcDisplaySummary(acc);
+}
 
 // kalkulacja i wyświetlanie balance 
 
@@ -166,21 +179,83 @@ if(currentAccount?.pin === Number(inputLoginPin.value)) {
   labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`; // Welcome back, Jonas
   containerApp.style.opacity = 100;
 
-  //todo Display movements 
+  //todo clear input fields 
 
-  displayMovements(currentAccount.movements);
+  inputLoginUsername.value = inputLoginPin.value = '';
+  inputLoginPin.blur();
 
-  //todo Display balance 
+  //todo Displaying things on a screen ;) 
 
-  calcDisplayBalance(currentAccount.movements);
+  // // Display movements 
 
-  //todo Display summary
+  // displayMovements(currentAccount.movements);
 
-  calcDisplaySummary(currentAccount.movements);
+  // // Display balance 
+
+  // calcDisplayBalance(currentAccount);
+
+  // // Display summary
+
+  // calcDisplaySummary(currentAccount);
+
+  // REFRACTORING those three functions in 141 code line 
+
+  //todo updating UI 
+  updateUI(currentAccount);
 }
 });
+//t 157 
+//todo transfer money 
 
-// 16:27
+btnTransfer.addEventListener('click', function(e) { // e -> event
+  e.preventDefault(); // reset, by click on form nie odświeżał storny
+  const amount = Number(inputTransferAmount.value);
+  const reciverAcc = accounts.find(acc => acc.username === inputTransferTo.value); // szuka wpisanej nazwy konta wśród zarejestrowanych kont (inputTransferTo.value to tylko strink z nazwą)
+
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if(amount > 0 && 
+    reciverAcc &&
+    currentAccount.balance >= amount && 
+    reciverAcc?.username !== currentAccount.username) 
+    // reciverAcc>.username - optional chaining oraz jednoczesne sprawdzenie czy dany user istnieje, jeśli nie, to wyjdzie false czyli cały warunek będzie false więc blok kodu się nie wykona.
+  {
+    // todo doing the transfer
+    currentAccount.movements.push(-amount);
+    reciverAcc.movements.push(amount);
+
+    //todo updating UI 
+    updateUI(currentAccount);
+  }
+
+});
+
+//t 158 findIndex() 
+
+btnClose.addEventListener('click', function(e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.      username &&
+    Number(inputClosePin.value) === currentAccount.pin) 
+  {
+    const index = accounts.findIndex(acc => acc.username === currentAccount.username);
+
+    // findIndex() will return the only first index that match this conditions above 
+
+    // it's a bit similar as .indexOf() but it will serch only for this particular value in an array, will give true or false, and we can not create a complex condition like above 
+
+    console.log(index);
+
+    //todo delete account 
+    accounts.splice(index, 1);
+
+    //todo hide UI 
+    containerApp.style.opacity = 0;    
+  }
+
+  inputCloseUsername.value = inputClosePin.value = ''
+})
 
 //t///////////////////////////////////////////////
 //t LECTURES
