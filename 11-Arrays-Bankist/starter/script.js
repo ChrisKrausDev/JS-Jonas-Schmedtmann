@@ -64,11 +64,15 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 // It's a good practice, to pass data into a function instaed in global scope. So we need to create a function simulating a movements in your bank account
 
-const displayMovements = function(movements) {
+// sort - sortowanie movements na stronie po kliknięciu sort button //t 161 sorting arrays 
+
+const displayMovements = function(movements, sort = false) {
   containerMovements.innerHTML = '';
   // .textContent = 0 - in pig game
 
-  movements.forEach(function(mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements // użycie slice() by stworzyć kopię tej array! Nie można operowac na oryginale, bo zmieni zapis u każdego użytkownika na stałe  
+
+  movs.forEach(function(mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal'
 
     const html = `
@@ -280,6 +284,19 @@ btnClose.addEventListener('click', function(e) {
 
   inputCloseUsername.value = inputClosePin.value = ''
 });
+
+// po naciśnięciu przycisku btnSort, movements na stronie posortują się od największego do najmniejszego
+
+// let sorted pozwala przełączać po ponownym kliknięciu do widoku nieposortowanego 
+
+// kiedy sorted jest false - wtedy chcemy sorted w parametrach jako true, a jak już jest sorted to chcemy oposite 
+
+let sorted = false;
+btnSort.addEventListener('click', function(e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+})
 
 
 //t///////////////////////////////////////////////
@@ -717,3 +734,142 @@ const deposit = mov => mov > 0;
 console.log(movements.some(deposit)); //  true! 
 console.log(movements.every(deposit));
 console.log(movements.filter(deposit));
+
+//t 160 flat and flatMap 
+
+/*
+
+const arr2 = [[1, 2, 3], [4, 5, 6], 7, 8];
+
+console.log(arr2.flat()) // [1, 2, 3, 4, 5, 6, 7, 8] it will remove nested arrays, and flattend the array. It goes only one level deep 
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat()); // [Array(2), 3, 4, Array(2), 7, 8]
+
+console.log(arrDeep.flat(2)) // [1, 2, 3, 4, 5, 6, 7, 8]
+
+//  to store all movements from all user of the bank in one array: 
+
+const accountMovements = accounts.map(acc => acc.movements);
+console.log(accountMovements);
+
+// const allMovements = accountMovements.flat();
+// console.log(allMovements); //[200, 450, -400, 3000, -650, -130, 70, 1300, 5000, 3400, -150, -790, -3210, -1000, 8500, -30, 200, -200, 340, -300, -20, 50, 400, -460, 430, 1000, 700, 50, 90]
+
+// const overalMovements = allMovements.reduce((acc, mov) => acc + mov, 0)
+
+// console.log(overalMovements);
+
+// flat()
+const overalBalance = accounts
+  .map(acc => acc.movements)
+  .flat() // more then one lvl deep   
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(overalBalance);
+
+// flatMap()
+const overalBalance2 = accounts
+  .flatMap(acc => acc.movements) // only one lvl deep!
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(overalBalance2);
+
+*/ 
+
+//t sorting arrays 
+
+/*
+
+// strings 
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+console.log(owners.sort()); // alfabetical - mutate array 
+
+// numbers
+console.log(movements);
+
+// console.log(movements.sort()); // [-130, -400, -650, 1300, 200, 3000, 450, 70] - sortet alpha... from 1 to 9 
+
+// return < 0, a, b (keep order)
+// return > 0, b, a (swith order)
+
+
+// assending 
+// movements.sort((a, b) => {
+//   if (a > b) 
+//     return 1; // (swith order)
+//   if (a < b) // (keep order)
+//     return -1;
+// }); // a - cur val, b - next val. Better to understand - a and b are two consecutives numbers in the array.
+
+// // descending 
+// movements.sort((a, b) => {
+//   if (a > b) 
+//     return -1
+//   if (a < b)
+//     return 1
+// })
+
+//todo improving all of this: 
+
+movements.sort((a, b) => a - b);
+
+console.log(movements);
+
+movements.sort((a, b) => b - a);
+
+console.log(movements);
+
+*/ 
+
+//t 162 more ways of creating and iflling arrays 
+
+
+// creating arrays manualy: 
+
+const arr2 = ([1, 2, 3, 4, 5, 6]);
+console.log(new Array(1, 2, 3, 4, 5, 6));
+
+// creating arrays programaticlly 
+// empty arrays + fill method 
+
+const x = new Array(7);
+console.log(x); // [empty × 7] - array of 7 empty places
+
+console.log(x.map(() => 5)); // [empty × 7] - nothing happend!
+
+// fill()
+// x.fill(1)
+// console.log(x); // [1, 1, 1, 1, 1, 1, 1]
+
+x.fill(1, 3, 5);
+console.log(x); // [empty × 3, 1, 1, empty × 2]
+
+arr2.fill(23, 4, 6); // fill the 23 in positions from 4 to 6 
+
+console.log(arr2); // [1, 2, 3, 4, 23, 23]
+
+// array.from
+
+const y = Array.from({length: 7}, () => 1);
+console.log(y);
+
+const z = Array.from({length: 7}, (_, i) => i + 1); // _ throwaway variable - we don't need this variable, bo we need to define something as a first parameter 
+console.log(z); //[1, 2, 3, 4, 5, 6, 7]
+
+const asterix = Array.from({length: 100}, () => '*');
+
+console.log(asterix);
+
+// Array.from() was introduced in JS to create arrays from other thins - array-like object like set, querySelectorAll etc 
+
+
+labelBalance.addEventListener('click', function() {
+    const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el => Number(el.textContent.replace('€', '')) // przerobienie obieku węzła (querySelectorAll) na tablicę bez znaku euro 
+  );
+
+    console.log(movementsUI);
+
+    const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+
+});
