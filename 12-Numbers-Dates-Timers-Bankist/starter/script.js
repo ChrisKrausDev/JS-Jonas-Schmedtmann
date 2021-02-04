@@ -94,7 +94,7 @@ const displayMovements = function (movements, sort = false) {
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
-        <div class="movements__value">${mov}€</div>
+        <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
 
@@ -104,19 +104,19 @@ const displayMovements = function (movements, sort = false) {
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance}€`;
+  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
 };
 
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes}€`;
+  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
 
   const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out)}€`;
+  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
 
   const interest = acc.movements
     .filter(mov => mov > 0)
@@ -126,7 +126,7 @@ const calcDisplaySummary = function (acc) {
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest}€`;
+  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
 };
 
 const createUsernames = function (accs) {
@@ -206,7 +206,7 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
@@ -223,7 +223,7 @@ btnClose.addEventListener('click', function (e) {
 
   if (
     inputCloseUsername.value === currentAccount.username &&
-    Number(inputClosePin.value) === currentAccount.pin
+    +inputClosePin.value === currentAccount.pin
   ) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
@@ -251,3 +251,168 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+
+/*
+
+// all numbers ar represents by floating points numbers:
+// numbers are represented also in 64 base 2 format - always in binary form! And that couses errors! 
+
+console.log(23 === 23.0); //  true
+console.log(0.1 + 0.2); //  0.30000000000000004
+console.log(0.1 + 0.2 === 0.3); // false!!!!  
+
+//  conversion string to number: 
+console.log(Number('23'));
+console.log(+'23'); //  the same result!
+
+// parsing, redix - second arg is for system liczbowy 10 albo 2
+console.log(Number.parseInt('30px', 10)); // will figure out the number from that string! But the string must start with the number 
+
+console.log(Number.parseInt('a23', 10)); // NaN
+
+console.log(Number.parseInt('2.5rem')); // 2
+console.log(Number.parseFloat(' 2.5rem  ')); // 2.5 - white space - egal
+
+console.log(Number.isNaN(20));      // false
+console.log(Number.isNaN('20'));    // false
+console.log(Number.isNaN(+'20X'));  //  true
+console.log(Number.isNaN(23 / 0));  // false 
+//  ta metoda wyrzuca błędy więc do sprawdzenia czy dany input jest number lepsza jest: 
+
+// isFinite() checking if value is a number 
+
+console.log(Number.isFinite(20));     //  true
+console.log(Number.isFinite('20'));   // false
+console.log(Number.isFinite(+'20X')); // false
+console.log(+'20X'); // NaN
+console.log(Number.isFinite(23 / 0)); // false 
+
+console.log(Number.isInteger(23));    //  true
+console.log(Number.isInteger(23.0));  //  true
+console.log(Number.isInteger(23 / 0));// false
+
+*/ 
+
+//t number, data, intl and timers 
+
+// math operators
+
+console.log(Math.sqrt(25)); // 5 bo do 2
+console.log(25 ** (1 / 2)); // 5 bo do 2 
+console.log(8 ** (1 / 3));  // 2 bo do 3
+
+// max min value
+
+console.log(Math.max(5, 15, 33, 112));   // 121
+console.log(Math.max(5, 15, 33, '112')); // 121
+console.log(Math.max(5, 15, 33, '112px')); // it does not parse -> NaN
+
+console.log(Math.min(5, 15, 33, 112)); // 5 
+
+// constans, to calc the radius of a circle with 10px:
+
+console.log(Math.PI * Number.parseFloat('10px') ** 2);
+
+//todo random function!!! 
+
+console.log(Math.trunc(Math.random() * 6) + 1); // with trunc we remove decimal part from this rendom generated number 
+
+const randomInt = (min, max) => 
+  Math.floor(Math.random() * (max - min) + 1) + min;
+//fixme 0...1 -> 0...(max - min) -> min...max 
+//  tego fragmentu Saszka nie paniemaju 
+
+console.log(randomInt(10, 20));
+
+// Rounding integers 
+
+console.log(Math.trunc(23.3)); // 23 - trunc() removes any decimal parts
+
+console.log(Math.round(23.3)); // 23
+console.log(Math.round(23.9)); // 24 to closest 
+
+console.log(Math.ceil(23.3)); // 24
+console.log(Math.ceil(23.9)); // 24 to up
+
+console.log(Math.floor(23.3)); // 23
+console.log(Math.floor('23.9')); // 23 to down, and it's do type conversion
+
+console.log(Math.trunc(-23.3)); // -23 only del dec part
+console.log(Math.floor(-23.9)); // -24 also runded to down! 
+
+// Rounding decimals 
+console.log((2.7).toFixed(0)); //  toFixed always return number! 
+console.log((2.7).toFixed(3)); // 2.700 with 3 decimal parts 
+
+console.log((2.345).toFixed(3)); // 2.345
+console.log(+(2.345).toFixed(2)); // 2.35 - but now it's a number! 
+
+//t remainder operator! 
+
+/*
+
+console.log(5 % 2); // 1
+
+// even or odd?
+
+const isEven = n => n % 2 === 0;
+console.log(isEven(8)); //  true
+console.log(isEven(1)); //  false
+
+labelBalance.addEventListener('click', function () {
+  [...document.querySelectorAll('.movements__row')].forEach(function(row, i) {
+
+    // 0, 2, 4, 6   
+    if (i % 2 === 0) row.style.backgroundColor = 'orangered';
+    //  to convert a node list (not real array) to array, use spread operator. (spread this node elements into this array)
+
+    // 0, 3, 6, 9
+    if (i % 3 === 0) row.style.backgroundColor = 'blue';
+  });
+});
+
+*/
+
+//t 171 working with bigInt
+
+// spetial type of intigers 
+
+// number are represent as 64 bits (64 1's or 0's)
+// from those 64 bits only 53 are stored to represent digits itself - rest is for storing position of decimal point and the sign. If there is only 53 bits for any number so there is a limit of how big this number can be...
+
+console.log(2 ** 53 - 1); // 9007199254740991 - 1 becaudse the number starts at 0
+
+console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991
+
+// powyżej tej liczby, moga występować problemy z dokładnością liczenia 
+
+//todo bigInt 
+
+console.log(40985309485093850984309583094850934); // 4.098530948509385e+34
+
+console.log(9034950340958243508348680945834n); // 9034950340958243508348680945834n
+
+console.log(BigInt(9034950340958243508348680945834)); //fixme to jest dupa, nie dzialła ale nie wiadomo czemu
+
+// operations 
+
+console.log(10000n + 10000n); // 20000n
+console.log(938459843958439058309485093485n * 100000000000000000000000000000000000000000000000000444n);
+
+const huge = 23840983249028304982390n
+const num = 23;
+// console.log(huge * num); // error! we have to convert num to bigint
+
+// Exception
+console.log(huge * BigInt(num));
+console.log(20n > 15); //  true
+console.log(20n === 20); // false 
+console.log(typeof 20n); // BigInt
+console.log(20n == '20');
+
+console.log(huge + ' is REALLY big!!!');
+
+// Division
+console.log(10n / 3n); // 3n - cut decimal parts 
+console.log(10 / 3); //3.333333
+
