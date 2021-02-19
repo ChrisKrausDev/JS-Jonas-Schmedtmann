@@ -779,7 +779,7 @@ console.log(overalBalance2);
 
 //t sorting arrays 
 
-/*
+console.warn('sorting arrays');
 
 // strings 
 const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
@@ -795,20 +795,20 @@ console.log(movements);
 
 
 // assending 
-// movements.sort((a, b) => {
-//   if (a > b) 
-//     return 1; // (swith order)
-//   if (a < b) // (keep order)
-//     return -1;
-// }); // a - cur val, b - next val. Better to understand - a and b are two consecutives numbers in the array.
+movements.sort((a, b) => {
+  if (a > b) 
+    return 1; // (swith order)
+  if (a < b) // (keep order)
+    return -1;
+}); // a - cur val, b - next val. Better to understand - a and b are two consecutives numbers in the array.
 
-// // descending 
-// movements.sort((a, b) => {
-//   if (a > b) 
-//     return -1
-//   if (a < b)
-//     return 1
-// })
+// descending 
+movements.sort((a, b) => {
+  if (a > b) 
+    return -1
+  if (a < b)
+    return 1
+})
 
 //todo improving all of this: 
 
@@ -820,7 +820,7 @@ movements.sort((a, b) => b - a);
 
 console.log(movements);
 
-*/ 
+
 
 //t 162 more ways of creating and flling arrays 
 

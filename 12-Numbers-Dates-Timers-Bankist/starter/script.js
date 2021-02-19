@@ -295,6 +295,8 @@ console.log(Number.isInteger(23 / 0));// false
 
 //t number, data, intl and timers 
 
+/*
+
 // math operators
 
 console.log(Math.sqrt(25)); // 5 bo do 2
@@ -341,13 +343,15 @@ console.log(Math.trunc(-23.3)); // -23 only del dec part
 console.log(Math.floor(-23.9)); // -24 also runded to down! 
 
 // Rounding decimals 
-console.log((2.7).toFixed(0)); //  toFixed always return number! 
+console.log((2.7).toFixed(0)); //  toFixed always return a string! 
 console.log((2.7).toFixed(3)); // 2.700 with 3 decimal parts 
 
 console.log((2.345).toFixed(3)); // 2.345
 console.log(+(2.345).toFixed(2)); // 2.35 - but now it's a number! 
 
-//t remainder operator! 
+*/
+
+//t 170 remainder operator! 
 
 /*
 
@@ -374,6 +378,8 @@ labelBalance.addEventListener('click', function () {
 */
 
 //t 171 working with bigInt
+
+/*
 
 // spetial type of intigers 
 
@@ -416,3 +422,97 @@ console.log(huge + ' is REALLY big!!!');
 console.log(10n / 3n); // 3n - cut decimal parts 
 console.log(10 / 3); //3.333333
 
+*/
+
+//t 172 Crating Dates [Dates in JS]
+
+/*
+
+const now = new Date();
+console.log(now); // Fri Feb 19 2021 14:40:49 GMT+0100 (Central European Standard Time)
+
+console.log(new Date('Feb 19 2021 14:41:13')); // based on this string JS creating: Fri Feb 19 2021 14:41:13 GMT+0100 (Central European Standard Time)
+
+console.log(new Date('December 24, 2015')); // JS will parse this string to: Thu Dec 24 2015 00:00:00 GMT+0100 (Central European Standard Time) - //fixme not recommended
+
+
+    // account1: 
+
+    // {owner: "Jonas Schmedtmann", movements: Array(8), interestRate: 1.2, pin: 1111, movementsDates: Array(8), …}
+    // currency: "EUR"
+    // interestRate: 1.2
+    // locale: "pt-PT"
+    // movements: (8) [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300]
+    // movementsDates: (8) ["2019-11-18T21:31:17.178Z", "2019-12-23T07:42:02.383Z", "2020-01-28T09:15:04.904Z", "2020-04-01T10:17:24.185Z", "2020-05-08T14:11:59.604Z", "2020-05-27T17:01:17.194Z", "2020-07-11T23:36:17.929Z", "2020-07-12T10:51:36.790Z"]
+    // owner: "Jonas Schmedtmann"
+    // pin: 1111
+    // username: "js"
+    // __proto__: Object
+
+    // Z by end of the time string meand UTC 
+
+
+//fixme but here is ok, because js was created this time string: 
+
+// account1.movementsDates[0] = "2019-11-18T21:31:17.178Z" 
+
+console.log(new Date(account1.movementsDates[0])); // Mon Nov 18 2019 22:31:17 GMT+0100 (Central European Standard Time)
+
+//todo creating a date: 
+
+// month is 0-11 - november = 10!!!! 
+
+console.log(new Date(2037, 10, 19, 15, 23, 5)); //  Thu Nov 19 2037 15:23:05 GMT+0100 (Central European Standard Time)
+
+//todo autocorrect days: 
+
+console.log(new Date(2037, 10, 33, 15, 23, 5)); // gives automaticly Dec 03 !! 
+
+//  Thu Dec 03 2037 15:23:05 GMT+0100 (Central European Standard Time)
+
+//todo initial Time: 
+
+console.log(new Date(0)); // initial time: Thu Jan 01 1970 01:00:00 GMT+0100 (Central European Standard Time) 
+
+//todo converting to milliseconds: 
+
+console.log(new Date(3 * 24 * 60 * 60 * 1000)); //  three days after initial time: Sun Jan 04 1970 01:00:00 GMT+0100 (Central European Standard Time)
+
+//todo timestemp: 
+
+//  timestamp of the day number 3: 
+// 3 * 24 * 60 * 60 * 1000 = 259200000
+
+*/
+
+//todo working with dates: 
+
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future); //  Thu Nov 19 2037 15:23:00 GMT+0100 (Central European Standard Time)
+
+console.log(future.getFullYear());
+// do not use getYear();
+
+console.log(future.getMonth()); // (0-10)
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.getMonth());
+
+//todo ISO String - international strandard 
+
+console.log(future.toISOString()); // 2037-11-19T14:23:00.000Z
+
+console.log(future.getTime()); // 2142253380000
+console.log(new Date(2142253380000)); //  Thu Nov 19 2037 15:23:00 GMT+0100 (Central European Standard Time)
+
+console.log(Date.now()); // 1613743588565 and this we can convert to full date
+
+//todo set verions of this methods:
+
+future.setFullYear(2040);
+console.log(future); // Mon Nov 19 2040 15:23:00 GMT+0100 (Central European Standard Time)
+
+// setMonth, setDate, setDays
