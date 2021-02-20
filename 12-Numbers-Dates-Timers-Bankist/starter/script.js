@@ -21,9 +21,9 @@ const account1 = {
     '2020-01-28T09:15:04.904Z',
     '2020-04-01T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
-    '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    '2020-01-27T19:01:17.194Z',
+    '2020-01-11T23:36:17.929Z',
+    '2021-02-19T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -81,19 +81,45 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
-const displayMovements = function (movements, sort = false) {
+//todo wyświetlanie daty lub today, yesterday and so one:
+const formatMovementDate = function (date) {
+  
+  const calcDaysPassed = (date1, date2) => Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+  console.log(daysPassed);
+
+  if (daysPassed === 0) return 'Today';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed <= 7) return `${daysPassed} days ago`;
+  else {
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() +1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+}; 
+
+const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
 
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    //todo showing the movements dates by each movement by looping over two arrays at the same time, using current index of the forEach() method: 
+    const date = new Date(acc.movementsDates[i])
+    // converting strings in acc.movementsDates into js object because only then we can work with this data
+
+    const displayDate = formatMovementDate(date);
 
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
+        <div class="movements__date">${displayDate}</div>
         <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
@@ -142,7 +168,7 @@ createUsernames(accounts);
 
 const updateUI = function (acc) {
   // Display movements
-  displayMovements(acc.movements);
+  displayMovements(acc);
 
   // Display balance
   calcDisplayBalance(acc);
@@ -154,6 +180,14 @@ const updateUI = function (acc) {
 ///////////////////////////////////////
 // Event handlers
 let currentAccount;
+
+//todo fake always logged in 
+
+currentAccount = account1;
+updateUI(currentAccount);
+containerApp.style.opacity = 100;
+
+
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -170,6 +204,22 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.owner.split(' ')[0]
     }`;
     containerApp.style.opacity = 100;
+
+
+    //todo create current date and time shown after login
+
+    const now = new Date();
+    const day = `${now.getDate()}`.padStart(2, '0');
+
+      // padStart(2, '0') - string `${now.getDate()}` - string ma się składać z 2 znaków, jesli składa się z jednego, wstaw na początku '0' (samo 0 też jest ok). Jeśli string będzie już np 12, to wtedy zero nie będzie dodane 
+
+    const month = `${now.getDate() +1}`.padStart(2, '0');; // it is 0-11! 0 - January 
+    const year = now.getFullYear();
+    const hour = `${now.getHours()}`.padStart(2, '0');
+    const min = `${now.getMinutes()}`.padStart(2, '0');
+    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`
+
+    // what we need to display: day/month/year, hours:minutes
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -198,6 +248,10 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
 
+    // Add transfer date
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAcc.movementsDates.push(new Date().toISOString());
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -211,6 +265,9 @@ btnLoan.addEventListener('click', function (e) {
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
     currentAccount.movements.push(amount);
+
+    // Add loan date
+    currentAccount.movementsDates.push(new Date().toISOString());
 
     // Update UI
     updateUI(currentAccount);
@@ -244,7 +301,7 @@ btnClose.addEventListener('click', function (e) {
 let sorted = false;
 btnSort.addEventListener('click', function (e) {
   e.preventDefault();
-  displayMovements(currentAccount.movements, !sorted);
+  displayMovements(currentAccount, !sorted);
   sorted = !sorted;
 });
 
@@ -487,6 +544,8 @@ console.log(new Date(3 * 24 * 60 * 60 * 1000)); //  three days after initial tim
 
 //todo working with dates: 
 
+/*
+
 const future = new Date(2037, 10, 19, 15, 23);
 console.log(future); //  Thu Nov 19 2037 15:23:00 GMT+0100 (Central European Standard Time)
 
@@ -516,3 +575,22 @@ future.setFullYear(2040);
 console.log(future); // Mon Nov 19 2040 15:23:00 GMT+0100 (Central European Standard Time)
 
 // setMonth, setDate, setDays
+
+*/ 
+
+//t 174. Operations With Dates
+
+// moment.js - date liberery for JS 
+
+const future = new Date(2037, 10, 19, 15, 23);
+// console.log(Number(future)); // in ms: 2142253380000
+// console.log(+future); // in ms: 2142253380000
+
+const calcDaysPassed = (date1, date2) => Math.abs(date2 - date1) / (1000 * 60 * 60 * 24);
+  // Math.abs() - zamienia liczby ujemne na dodatnie, więc nie ma znaczenia, czy pierwsza data jest wcześniejsza 
+
+const days1 = calcDaysPassed(new Date(2037, 3, 14), new Date(2037, 3, 4)); // 10
+const days2 = calcDaysPassed(new Date(2037, 3, 14), new Date(2037, 3, 4, 10, 8));
+
+console.log(days1); // 11 
+console.log(days2); // 9.577777777777778
