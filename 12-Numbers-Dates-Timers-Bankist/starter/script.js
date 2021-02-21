@@ -82,22 +82,26 @@ const inputClosePin = document.querySelector('.form__input--pin');
 // Functions
 
 //todo wyświetlanie daty lub today, yesterday and so one:
-const formatMovementDate = function (date) {
+
+const formatMovementDate = function (date, locale) {
   
   const calcDaysPassed = (date1, date2) => Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
   const daysPassed = calcDaysPassed(new Date(), date);
-  console.log(daysPassed);
+  // console.log(daysPassed);
 
   if (daysPassed === 0) return 'Today';
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed <= 7) return `${daysPassed} days ago`;
-  else {
-    const day = `${date.getDate()}`.padStart(2, 0);
-    const month = `${date.getMonth() +1}`.padStart(2, 0);
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
+  
+  // else {
+  //   const day = `${date.getDate()}`.padStart(2, 0);
+  //   const month = `${date.getMonth() +1}`.padStart(2, 0);
+  //   const year = date.getFullYear();
+  //   return `${day}/${month}/${year}`;
+  // } //fixme - replace with new, nicely formated date 
+
+  return new Intl.DateTimeFormat(locale).format(date);
 }; 
 
 const displayMovements = function (acc, sort = false) {
@@ -112,7 +116,7 @@ const displayMovements = function (acc, sort = false) {
     const date = new Date(acc.movementsDates[i])
     // converting strings in acc.movementsDates into js object because only then we can work with this data
 
-    const displayDate = formatMovementDate(date);
+    const displayDate = formatMovementDate(date, acc.locale);
 
     const html = `
       <div class="movements__row">
@@ -181,13 +185,6 @@ const updateUI = function (acc) {
 // Event handlers
 let currentAccount;
 
-//todo fake always logged in 
-
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
-
-
 
 btnLogin.addEventListener('click', function (e) {
   // Prevent form from submitting
@@ -196,28 +193,51 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
-  console.log(currentAccount);
+  console.log(currentAccount.locale);
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI and message
     labelWelcome.textContent = `Welcome back, ${
-      currentAccount.owner.split(' ')[0]
-    }`;
+      currentAccount.owner.split(' ')[0]}`;
     containerApp.style.opacity = 100;
-
 
     //todo create current date and time shown after login
 
+    // //todo fake always logged in 
+
+    // currentAccount = account1;
+    // updateUI(currentAccount);
+    // containerApp.style.opacity = 100; 
+
     const now = new Date();
-    const day = `${now.getDate()}`.padStart(2, '0');
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      // weekday: 'short'
+    };
 
-      // padStart(2, '0') - string `${now.getDate()}` - string ma się składać z 2 znaków, jesli składa się z jednego, wstaw na początku '0' (samo 0 też jest ok). Jeśli string będzie już np 12, to wtedy zero nie będzie dodane 
+    // const locale = navigator.language;
+    // console.log(locale); // en-US and using ths variable as at the bottom we can change time formatting depending on the language we use in browser
 
-    const month = `${now.getDate() +1}`.padStart(2, '0');; // it is 0-11! 0 - January 
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2, '0');
-    const min = `${now.getMinutes()}`.padStart(2, '0');
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`
+    labelDate.textContent = new Intl.DateTimeFormat(
+      currentAccount.locale, 
+      options
+    ).format(now);
+
+    // console.log(currentAccount.locale);
+
+    // const day = `${now.getDate()}`.padStart(2, '0');
+
+    //   // padStart(2, '0') - string `${now.getDate()}` - string ma się składać z 2 znaków, jesli składa się z jednego, wstaw na początku '0' (samo 0 też jest ok). Jeśli string będzie już np 12, to wtedy zero nie będzie dodane 
+
+    // const month = `${now.getDate() +1}`.padStart(2, '0');; // it is 0-11! 0 - January 
+    // const year = now.getFullYear();
+    // const hour = `${now.getHours()}`.padStart(2, '0');
+    // const min = `${now.getMinutes()}`.padStart(2, '0');
+    // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}`;
 
     // what we need to display: day/month/year, hours:minutes
 
@@ -580,6 +600,8 @@ console.log(future); // Mon Nov 19 2040 15:23:00 GMT+0100 (Central European Stan
 
 //t 174. Operations With Dates
 
+/*
+
 // moment.js - date liberery for JS 
 
 const future = new Date(2037, 10, 19, 15, 23);
@@ -594,3 +616,11 @@ const days2 = calcDaysPassed(new Date(2037, 3, 14), new Date(2037, 3, 4, 10, 8))
 
 console.log(days1); // 11 
 console.log(days2); // 9.577777777777778
+
+*/
+
+//t 175 Internationalizing Dates intl
+
+// internalization API 
+
+  
