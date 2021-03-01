@@ -181,6 +181,7 @@ const createUsernames = function (accs) {
       .join('');
   });
 };
+
 createUsernames(accounts);
 
 const updateUI = function (acc) {
@@ -194,9 +195,46 @@ const updateUI = function (acc) {
   calcDisplaySummary(acc);
 };
 
+//todo logoutTimer: 
+
+const startLogOutTimer = function(){
+  const tick = function() {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    // In each call, print the remaining time to UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    
+    // When 0 seconds, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer)
+      labelWelcome.textContent = `Log in to get started`
+      containerApp.style.opacity = 0;
+    }
+
+    // Dsecrese 1s
+    time--;
+  };
+
+  // Set time to 5 minutes 
+  let time = 120;
+
+  // Call the timer every second (with 1000 that means this callback will be executet every second) 
+
+  // Problem - the functions is executed after one second! We can see it on the website, we have to put the callback function to separate function and call it immediately. Give name 'tick' to the callback and put it into startLogOutTimer function()
+
+  tick() //todo calling this function here solves the problem 
+  const timer = setInterval(tick, 1000);
+  return timer;
+
+};
+
 ///////////////////////////////////////
 // Event handlers
-let currentAccount;
+let currentAccount, timer;
+
+// we need to return timer, and then declare it globaly to presist between different logins
 
 //todo fake always logged in 
 
@@ -221,7 +259,6 @@ btnLogin.addEventListener('click', function (e) {
 
     //todo create current date and time shown after login
 
-    
 
     const now = new Date();
     const options = {
@@ -259,6 +296,11 @@ btnLogin.addEventListener('click', function (e) {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
+    //  Timer
+
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
+
     // Update UI
     updateUI(currentAccount);
   }
@@ -288,6 +330,10 @@ btnTransfer.addEventListener('click', function (e) {
 
     // Update UI
     updateUI(currentAccount);
+
+    // Reset Timer (after two possible activities)
+    clearInterval(timer);  
+    timer = startLogOutTimer();
   }
 });
 
@@ -297,6 +343,7 @@ btnLoan.addEventListener('click', function (e) {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    
     setTimeout(function(){
       // Add movement
       currentAccount.movements.push(amount);
@@ -306,7 +353,11 @@ btnLoan.addEventListener('click', function (e) {
 
       // Update UI
       updateUI(currentAccount);
-    }, 2500)
+
+      // Reset Timer (after two possible activities)
+      clearInterval(timer);  
+      timer = startLogOutTimer();
+    }, 2500);
   }
   inputLoanAmount.value = '';
 });
@@ -660,6 +711,8 @@ console.log(days2); // 9.577777777777778
 
 //t 177 Timers: setTimeout and setInterval
 
+/*
+
 //todo setTimeout()
 
 // setTimeout - runs just onece afret defined time 
@@ -688,6 +741,17 @@ setInterval(function () {
   let seconds = `${now.getSeconds()}`.padStart(2, 0);
   console.log(`${hours}:${minutes}:${seconds}`);
 }, 1000)
+
+*/
+
+
+
+//t 178. Implementing a Countdown Timer
+// /*
+
+
+
+// */
 
 // /*
 // */
