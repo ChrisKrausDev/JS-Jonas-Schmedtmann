@@ -119,9 +119,66 @@ document.querySelector('.nav__links').addEventListener('click', function(e) {
         // it's a common technique for implementing navigation like this: 
     document.querySelector(id).scrollIntoView({ behavior: 'smooth'});
   }
-})
+});
 
+//todo Tabbed component 
 
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsCpontent = document.querySelectorAll('.operations__content'); 
+
+  // bad practice - by 200 tabs it will be to looooooong to find it out
+//  tabs.forEach(t => t.addEventListener('click', () => console.log('TAB'))
+// );
+
+  // beter is with event delegation => add event on the parent element (in this case => tabsContainer)
+
+tabsContainer.addEventListener('click', function(e) {
+    // matching => which button was clicked? 
+
+  // const clicked = e.target;
+
+    // it works, but when we click on numbr (on the left side of the button 01) then we have a SPAN element! We need button! Because it have data-tab atribute (1 - 3) which we need later
+  
+  // console.log(clicked); 
+
+    //  to avoid this problem we can use DOM traversing: 
+
+  // const clicked = e.target.parentElement;
+
+    // it works fine when we click on span because the button is a parent element of the span! But now problem comes when we click on button itself, because it will show button parent => 'operations__tab-container 
+
+  // console.log(clicked);
+
+    // so to avoid this problem we can use closest() method. It will seek for the closest element with class name => 'operations__tab'
+
+  const clicked = e.target.closest('.operations__tab');
+  console.log(clicked);
+  
+    // Guard clause => clicking on contener we get an error in console (Cannot read property 'classList' of null at HTMLDivElement.<anonymous>) => because there is no nearest element with this class. We have to ignore any clicks on that area 
+
+  if (!clicked) return;
+
+    // CLEARING CLASS => before adding a class, we have to remove it from all of the buttons
+
+  //  tabs
+  tabs.forEach(t => t.classList.remove('operations__tab--active'));
+
+  // content areas
+  tabsCpontent.forEach(c => c.classList.remove('operations__content--active'))
+
+    // Activate tab => adding class after click to the 'clicked'
+
+  clicked.classList.add('operations__tab--active'); 
+
+    // Activating content area
+
+  document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
+  // console.log(clicked.dataset.tab);
+ 
+});
+
+// 14:19! 
 
 //t                                                             
 //t                                                             
@@ -398,6 +455,8 @@ document.querySelector('.nav').addEventListener('click', function (e) {
 
 //t 190 Traversing the DOM 
 
+/*
+
 //todo upwards - parents 
 
 const h1 = document.querySelector('h1');
@@ -440,3 +499,8 @@ console.log('h1.parentElement.children => ', h1.parentElement.children);
 [...h1.parentElement.children].forEach(function(el){
   if(el !== h1) el.style.transform = 'scale(0.5)';
 });
+
+*/
+
+//t 191. Building a Tabbed Component 
+
