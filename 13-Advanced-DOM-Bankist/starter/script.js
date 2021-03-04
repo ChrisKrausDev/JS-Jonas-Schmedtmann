@@ -10,6 +10,10 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const nav = document.querySelector('.nav');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsCpontent = document.querySelectorAll('.operations__content'); 
 
 const openModal = function (e) {
   e.preventDefault(); // after click on link page will not go to pos 0 of y axis
@@ -123,10 +127,6 @@ document.querySelector('.nav__links').addEventListener('click', function(e) {
 
 //todo Tabbed component 
 
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsCpontent = document.querySelectorAll('.operations__content'); 
-
   // bad practice - by 200 tabs it will be to looooooong to find it out
 //  tabs.forEach(t => t.addEventListener('click', () => console.log('TAB'))
 // );
@@ -178,7 +178,44 @@ tabsContainer.addEventListener('click', function(e) {
  
 });
 
-// 14:19! 
+// todo Nav fade animation 
+
+  // we need to find a common parent element to the menu and logo, which will bubble up from the links. We need to use 'mouseover', because 'mouseenter' does not bubble, and here we need event to bubble. 
+
+  // btw, we don't need closest() method, because there is no other element like span in button
+
+const handlerHover = function(e) {
+
+    //  this keyword is equal to current target 
+
+  // console.log(this, e.currentTarget);
+
+  if (e.target.classList.contains('nav__link')) {
+
+      // creating an element which contains the element that we working with
+
+    const link = e.target;
+
+      // selecting sibiling elements (all other links)
+      // const sibilings = link.closest('.nav')  - we are now at parent of all of the links, and now from there we can search for nav links again. And it will be a sibilings of our initial links 
+
+    const sibilings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+      // changing opacity of the other items 
+
+    sibilings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+}; 
+
+  // we use bind() method here to pass argument into a handler function. Any handler function can only have one real argument. And can only have one real parameter - and that is the event (e)
+
+nav.addEventListener('mouseover', handlerHover.bind(0.5));
+
+nav.addEventListener('mouseout', handlerHover.bind(1));
 
 //t                                                             
 //t                                                             
@@ -503,4 +540,7 @@ console.log('h1.parentElement.children => ', h1.parentElement.children);
 */
 
 //t 191. Building a Tabbed Component 
+
+//t 192. Passing Arguments to Event Handlers 
+
 
