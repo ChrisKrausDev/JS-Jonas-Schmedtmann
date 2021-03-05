@@ -217,6 +217,29 @@ nav.addEventListener('mouseover', handlerHover.bind(0.5));
 
 nav.addEventListener('mouseout', handlerHover.bind(1));
 
+//todo Sticky navigation 
+
+/*
+
+  // this method is not efficient, the window.scrollY fires all the time, there is a way better attempt to do that. 
+
+const initialCoords = section1.getBoundingClientRect();
+console.log(initialCoords); // DOMRect {x: 0, y: 585, width: 1137, height: 1398, top: 585, …}
+
+window.addEventListener('scroll', function() {
+
+  if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+
+    // position from top viewport to the top of the page   
+
+  // console.log(window.scrollY);
+
+
+});
+
+*/
+
 //t                                                             
 //t                                                             
 //t                                                             
@@ -543,4 +566,67 @@ console.log('h1.parentElement.children => ', h1.parentElement.children);
 
 //t 192. Passing Arguments to Event Handlers 
 
+//t 193. Implementing Sticky Nav = scroll event 
 
+//t 194. A better way: The Intersection Observer API 
+
+/*
+
+ // IO API allows our code to observ changes to the way that the certain target element intersect another element OR the way it intesect the viewport 
+
+ 
+  //  this callback function will get called each time that the observed element (section1 => observer.observe(section1) is intersecting the root element at the threshold that we defined)
+const obsCallback = function(entries, observer) {
+  entries .forEach(entry => {
+    // console.log(entry); //  to check or intersection is true => IntersectionObserverEntry {time: 192.94499999978143, rootBounds: DOMRectReadOnly, boundingClientRect: DOMRectReadOnly, intersectionRect: DOMRectReadOnly, isIntersecting: false, …}
+    console.log('intersecting? =>', entry.isIntersecting, ', visable? =>', entry.isVisible, ', inSeRatio:', entry.intersectionRatio);
+  })
+};
+
+const obsOptions = {
+    // root is the element that the target is intersecting
+  root: null,
+
+    //  threshold is the percentage of intersection at which the obsCallback will be called. 
+    
+      //    By 10% => if 10% of the section1 will shown at the viewport the 'entry.Intersecting' property will be 'true'
+      //    By 0 => the obsCallback will trigger when our target element moves completely out of the view.
+      //    By 1 => only will be trigged when target element will be 100% wisable in the viewport 
+
+  threshold: [0, 0.2] // 10% 
+};
+
+const observer = new IntersectionObserver
+(obsCallback, obsOptions);
+
+observer.observe(section1);
+
+// soooooooo whenever the first section is intersecting the viewport (root: null => whole viewport) at 10% (threshold => 10%) the obsCallback will get called (no metter or we are scrolling up od down)
+
+*/ //t end of the training section
+
+// we want to sticky menu in this point, when header moves complitly out of the view 
+
+const header = document.querySelector('.header');
+
+  // because of the RWD (responsibe web design) is better to calculate the nav bar height:
+
+const navHeight = nav.getBoundingClientRect().height;
+// console.log(navHeight);
+
+const stickyNav = function(entries) {
+  const [entry] = entries; //  the same as: entries[0]
+  console.log(entry.isIntersecting);
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0, 
+
+    // rootMargin is a box of for egzample 90px that will be applied outside of our target element. (90px is the haight of the navigation bar)
+  rootMargin: `-${navHeight}px`
+});
+headerObserver.observe(header) // using headerObserver to observe the header section.
