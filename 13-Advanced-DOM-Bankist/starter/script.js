@@ -240,6 +240,135 @@ window.addEventListener('scroll', function() {
 
 */
 
+//t 194. A better way: The Intersection Observer API 
+
+/*
+
+ // IO API allows our code to observ changes to the way that the certain target element intersect another element OR the way it intesect the viewport 
+
+ 
+  //  this callback function will get called each time that the observed element (section1 => observer.observe(section1) is intersecting the root element at the threshold that we defined)
+const obsCallback = function(entries, observer) {
+  entries .forEach(entry => {
+    // console.log(entry); //  to check or intersection is true => IntersectionObserverEntry {time: 192.94499999978143, rootBounds: DOMRectReadOnly, boundingClientRect: DOMRectReadOnly, intersectionRect: DOMRectReadOnly, isIntersecting: false, …}
+    console.log('intersecting? =>', entry.isIntersecting, ', visable? =>', entry.isVisible, ', inSeRatio:', entry.intersectionRatio);
+  })
+};
+
+const obsOptions = {
+    // root is the element that the target is intersecting
+  root: null,
+
+    //  threshold is the percentage of intersection at which the obsCallback will be called. 
+    
+      //    By 10% => if 10% of the section1 will shown at the viewport the 'entry.Intersecting' property will be 'true'
+      //    By 0 => the obsCallback will trigger when our target element moves completely out of the view.
+      //    By 1 => only will be trigged when target element will be 100% wisable in the viewport 
+
+  threshold: [0, 0.2] // 10% 
+};
+
+const observer = new IntersectionObserver
+(obsCallback, obsOptions);
+
+observer.observe(section1);
+
+// soooooooo whenever the first section is intersecting the viewport (root: null => whole viewport) at 10% (threshold => 10%) the obsCallback will get called (no metter or we are scrolling up od down)
+
+*/ //t end of the training section
+
+// we want to sticky menu in this point, when header moves complitly out of the view 
+
+const header = document.querySelector('.header');
+
+  // because of the RWD (responsibe web design) is better to calculate the nav bar height:
+
+const navHeight = nav.getBoundingClientRect().height;
+// console.log(navHeight);
+
+const stickyNav = function(entries) {
+  const [entry] = entries; //  the same as: entries[0]
+  // console.log(entry.isIntersecting);
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0, 
+
+    // rootMargin is a box of for example 90px that will be applied outside of our target element. (90px is the haight of the navigation bar)
+  rootMargin: `-${navHeight}px`
+});
+headerObserver.observe(header) // using headerObserver to observe the header section.
+
+//t 195. Revealing Elements on Scroll
+  // odkrywanie elementów przy scrollowaniu 
+
+/*
+
+now all section have this properity: 
+
+    .section--hidden {
+      opacity: 0;
+      transform: translateY(8rem);
+    }
+
+to make it visable, we have to remove class 'section--hidden' with JS from HTML when we reach this section by scrollin
+
+*/
+
+//todo Reveal Sections 
+
+  // We want to observ all 4 sections. There is possible to oberve them all using the same observer. So let select all this sections and then we will observe them as multiple targets, using sectionObserver.
+
+const allSections = document.querySelectorAll('.section')
+
+const revealSection = function(entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+
+    // guard claus 
+  if(!entry.isIntersecting) return;
+
+    // we have to know which section intersecting the viewport
+  entry.target.classList.remove('section--hidden');
+
+    // unobserve unnecessary targets. By going to the down of the website the all targets will be no more observe
+  observer.unobserve(entry.target);
+}
+
+const sectionObserver = new IntersectionObserver(
+  revealSection, {
+    root: null,
+    threshold: 0.15,
+  })
+
+allSections.forEach(function(section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden')
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //t                                                             
 //t                                                             
 //t                                                             
@@ -570,63 +699,4 @@ console.log('h1.parentElement.children => ', h1.parentElement.children);
 
 //t 194. A better way: The Intersection Observer API 
 
-/*
 
- // IO API allows our code to observ changes to the way that the certain target element intersect another element OR the way it intesect the viewport 
-
- 
-  //  this callback function will get called each time that the observed element (section1 => observer.observe(section1) is intersecting the root element at the threshold that we defined)
-const obsCallback = function(entries, observer) {
-  entries .forEach(entry => {
-    // console.log(entry); //  to check or intersection is true => IntersectionObserverEntry {time: 192.94499999978143, rootBounds: DOMRectReadOnly, boundingClientRect: DOMRectReadOnly, intersectionRect: DOMRectReadOnly, isIntersecting: false, …}
-    console.log('intersecting? =>', entry.isIntersecting, ', visable? =>', entry.isVisible, ', inSeRatio:', entry.intersectionRatio);
-  })
-};
-
-const obsOptions = {
-    // root is the element that the target is intersecting
-  root: null,
-
-    //  threshold is the percentage of intersection at which the obsCallback will be called. 
-    
-      //    By 10% => if 10% of the section1 will shown at the viewport the 'entry.Intersecting' property will be 'true'
-      //    By 0 => the obsCallback will trigger when our target element moves completely out of the view.
-      //    By 1 => only will be trigged when target element will be 100% wisable in the viewport 
-
-  threshold: [0, 0.2] // 10% 
-};
-
-const observer = new IntersectionObserver
-(obsCallback, obsOptions);
-
-observer.observe(section1);
-
-// soooooooo whenever the first section is intersecting the viewport (root: null => whole viewport) at 10% (threshold => 10%) the obsCallback will get called (no metter or we are scrolling up od down)
-
-*/ //t end of the training section
-
-// we want to sticky menu in this point, when header moves complitly out of the view 
-
-const header = document.querySelector('.header');
-
-  // because of the RWD (responsibe web design) is better to calculate the nav bar height:
-
-const navHeight = nav.getBoundingClientRect().height;
-// console.log(navHeight);
-
-const stickyNav = function(entries) {
-  const [entry] = entries; //  the same as: entries[0]
-  console.log(entry.isIntersecting);
-  if (!entry.isIntersecting) nav.classList.add('sticky');
-  else nav.classList.remove('sticky');
-
-};
-
-const headerObserver = new IntersectionObserver(stickyNav, {
-  root: null,
-  threshold: 0, 
-
-    // rootMargin is a box of for egzample 90px that will be applied outside of our target element. (90px is the haight of the navigation bar)
-  rootMargin: `-${navHeight}px`
-});
-headerObserver.observe(header) // using headerObserver to observe the header section.
