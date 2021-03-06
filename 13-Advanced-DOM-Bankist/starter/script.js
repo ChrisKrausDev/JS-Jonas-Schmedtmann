@@ -171,7 +171,7 @@ tabsContainer.addEventListener('click', function(e) {
 
   clicked.classList.add('operations__tab--active'); 
 
-    // Activating content area
+    // Activating content area. dataset - is the place where special data properties are stored
 
   document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
   // console.log(clicked.dataset.tab);
@@ -327,7 +327,7 @@ const allSections = document.querySelectorAll('.section')
 
 const revealSection = function(entries, observer) {
   const [entry] = entries;
-  console.log(entry);
+  // console.log(entry);
 
     // guard claus 
   if(!entry.isIntersecting) return;
@@ -348,7 +348,74 @@ const sectionObserver = new IntersectionObserver(
 allSections.forEach(function(section) {
   sectionObserver.observe(section);
   section.classList.add('section--hidden')
-})
+});
+
+//t 196 Lazy Loading Images 
+
+/*
+
+This feature has impact on the efficiency of the website.
+
+<div class="features">
+        <img 
+            // LQ pic
+          src="img/digital-lazy.jpg"
+
+            // HQ pic, and data-src is not a standart html atribute, but we can declare it ourselves
+          data-src="img/digital.jpg"
+
+          alt="Computer"
+          class="features__img lazy-img"
+        />
+
+When we scroll we will replace this LQ pic to the HQ pic, and remove 'lazy-img' class which make the image blurr
+
+*/
+
+  // we have to select only the photos with data-src atr => 'img[data-src]'
+
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+// console.log(imgTargets); // [img.features__img.lazy-img, img.features__img.lazy-img, img.features__img.lazy-img]
+
+const loadImg = function(entries, observer) {
+  const [entry] = entries;
+  console.log(entry.isIntersecting, entry);
+
+    // if not intersecting => end up the function
+  if (!entry.isIntersecting) return;
+
+    // is is intersecting => replace src with data-src.
+    
+
+  entry.target.src = entry.target.dataset.src;
+
+    //  this replacing of the src attribute actually basically happens behind the scenes. JS findes the new img that it should load and display here and it does that behind the scenes. Once it's finished loading that image it will omit the load event. And the Load Event is just like any other event => we can listen for it, adn then do smth on that image 
+
+    // doing so, it will be performance issue by slow internet
+  // entry.target.classList.remove('lazy-img')
+
+    // so better is to do it by lisen to the load event:
+  
+  entry.target.addEventListener('load', function() {
+    entry.target.classList.remove('lazy-img')
+  });
+
+    // after loading the img we do not need to whatch the img any more, so:
+
+  observer.unobserve(entry.target);
+}
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+
+    // specifying negative root margin - to load this imgs bit earlier, so that the user can not notice of the lazy load
+   
+  rootMargin: '200px'
+});
+
+imgTargets.forEach(img => imgObserver.observe(img))
 
 
 
