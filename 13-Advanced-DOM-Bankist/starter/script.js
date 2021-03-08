@@ -347,7 +347,7 @@ const sectionObserver = new IntersectionObserver(
 
 allSections.forEach(function(section) {
   sectionObserver.observe(section);
-  section.classList.add('section--hidden')
+  // section.classList.add('section--hidden')
 });
 
 //t 196 Lazy Loading Images 
@@ -380,7 +380,7 @@ const imgTargets = document.querySelectorAll('img[data-src]');
 
 const loadImg = function(entries, observer) {
   const [entry] = entries;
-  console.log(entry.isIntersecting, entry);
+  // console.log(entry.isIntersecting, entry);
 
     // if not intersecting => end up the function
   if (!entry.isIntersecting) return;
@@ -417,7 +417,112 @@ const imgObserver = new IntersectionObserver(loadImg, {
 
 imgTargets.forEach(img => imgObserver.observe(img))
 
+//t 197. Building a Slider Component: Part 1 
 
+//todo Slider
+
+const slider = function () {
+  const slides = document.querySelectorAll('.slide');
+  const btnLeft = document.querySelector('.slider__btn--left');
+  const btnRight = document.querySelector('.slider__btn--right');
+  const dotContainer = document.querySelector('.dots');
+
+  let curSlide = 0;
+
+    // by last slide we can set a variable that will hold the max slide it can be moved to the right. On the node list we can olso use the 'length' properity
+  const maxSlide = slides.length -1;
+
+  // functions 
+
+  const createDots = function () {
+      // creating a dot HTML element 
+    slides.forEach((_, i) =>{
+      dotContainer.insertAdjacentHTML('beforeend', `<button class="dots__dot" data-slide="${i}"></button>`)
+    })
+  };
+
+    //  active dot with another color
+  const activateDot = function(slide) {
+    document.querySelectorAll('.dots__dot').forEach(dot => dot.classList.remove('dots__dot--active'));
+
+      // by slide 2 we select the slide with data-slide attribute "2"
+    document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active')
+  };
+
+
+  const goToSlide = function (slide) {
+    slides.forEach((s, i) => s.style.transform = `translateX(${100 * (i - slide)}%)`)
+  }
+    // will start at slide nr 0 after opening the webside
+
+  // Next Slide
+  const nextSlide = function () {
+    if (curSlide === maxSlide) {
+      curSlide = 0;
+    } else {
+      curSlide++;
+    };
+    // if (i == 4) curSlide = 0;
+
+      // we want 1st slide to be -100%; 2nd - 0; 3rd - 100% etc
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  };
+
+  const prevSlide = function () {
+    if (curSlide === 0) {
+      curSlide = maxSlide;
+    } else {
+      curSlide--
+    };
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  }
+
+  const init = function() {
+    goToSlide(0);
+    createDots();
+    activateDot(0);
+  }
+
+  init();
+
+  // event handlers
+  btnRight.addEventListener('click', nextSlide);
+  btnLeft.addEventListener('click', prevSlide);
+
+  //todo keybord events! 
+
+  document.addEventListener('keydown', function (e) {
+    // console.log(e);
+    if (e.key === 'ArrowLeft') prevSlide();
+      //  this same by right arrow using short circuiting 
+    e.key === "ArrowRight" && nextSlide();
+  });
+
+    //  to make dots works! After click on the dot will go to the slide
+
+  dotContainer.addEventListener('click', function(e) {
+    if (e.target.classList.contains('dots__dot')) {
+        // destructuring
+      const {slide} = e.target.dataset; // data-slide="0 - 4" in HTML! 
+      console.log(slide);
+      goToSlide(slide);
+      activateDot(slide);
+    }
+  });
+
+
+  /*
+  0 * 100 = 0%
+  1 * 100 = 100%
+  2 * 200 = 200%
+
+  0%, 100%, 200%, 300%
+
+  */
+};
+slider();
 
 
 
